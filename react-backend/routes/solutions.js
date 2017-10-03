@@ -1,20 +1,9 @@
-let express = require('express');
-let router = express.Router();
+const solutions = require('express').Router();
 
-let users = [
-    {
-        id: Date.now(),
-        username: "Anni",
-    },
-    {
-        id: Date.now() + 1,
-        username: "Jonas",
-    }
-];
-
-router.route('/')
+solutions.route('/')
     .get((req, res, next) => {
-        res.json(users);
+        //ToDo: implementing get correctly
+        res.json("List of solutions");
     })
     .post((req, res, next) => {
         let user = req.body;
@@ -23,11 +12,11 @@ router.route('/')
         res.json(users);
     });
 
-router.route('/:id')
+solutions.route('/:id')
     .get((req, res, next) => {
         res.json(users.filter( user => {
             return user.id == req.params.id;
         }));
     });
 
-module.exports = router;
+module.exports = solutions;
