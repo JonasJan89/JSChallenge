@@ -7,3 +7,5 @@
 #Webstorm
 .idea
 
+#database
+/database

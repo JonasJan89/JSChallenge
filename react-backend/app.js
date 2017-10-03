@@ -10,6 +10,7 @@ const requestHandler = require('./handlers/requestHandler.js');
 const app = express();
 
 // view engine setup
+// ToDo: Remove
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(requestHandler);
 
 // catch 404 and forward to error handler
+//toDo: make a better version??
 app.use(function(req, res, next) {
     let err = new Error('Not Found');
     err.status = 404;
