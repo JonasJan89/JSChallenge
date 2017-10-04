@@ -26,7 +26,7 @@ users.route('/:id')
     .get((req, res, next) => {
         db.users.getById(req, res, next);
     })
-    .put(() => {
+    .put((req, res, next) => {
         db.users.updateById(req, res, next);
     })
     .all(function (req, res, next) {

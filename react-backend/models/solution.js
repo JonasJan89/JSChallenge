@@ -3,26 +3,15 @@ const Schema = mongoose.Schema;
 
 const SolutionSchema = new Schema({
     studentID: {
-        // type: Schema.Types.ObjectId,
-        // ref: 'User',
-
-        type: String,
-
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: [true, 'studentID is required']
     },
     taskID: {
-        // type: Schema.Types.ObjectId,
-        // ref: 'Task',
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Task',
         required: [true, 'taskID is required']
     },
-    //todo remove
-
-    text: {
-        type: String,
-        default: ''
-    },
-
     // feedbackID: {
     //     type: Schema.Types.ObjectId,
     //     ref: 'Feedback',
@@ -34,10 +23,10 @@ const SolutionSchema = new Schema({
     //     default: []
     // },
 
-    // codePath: {
-    //     type: String,
-    //     required: [true, 'codePath is required']
-    // },
+    codePath: {
+        type: String,
+        required: [true, 'codePath is required']
+    },
     // testdata: {
     //     type: Array,
     //     default: []

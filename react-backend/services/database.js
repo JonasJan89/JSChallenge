@@ -88,6 +88,13 @@ const DatabaseService = {
 
         saveOne: (req, res, next) => {
 
+            if(UserModel.findOne({'emailAddress':`${req.body.emailAddress}`})) {
+                let error = new Error(`User with EmailAddress: ${req.body.emailAddress} already exists`);
+                error.status = 400;
+                next(error);
+                return;
+            }
+
             new UserModel(req.body).save(function (err, item) {
                 if (err) {
                     err.status = 400;
@@ -153,8 +160,6 @@ const DatabaseService = {
             });
         }
     },
-
 };
-
 
 module.exports = DatabaseService;
