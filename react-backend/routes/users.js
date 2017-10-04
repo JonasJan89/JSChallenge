@@ -1,33 +1,43 @@
-let express = require('express');
-let router = express.Router();
+const users = require('express').Router();
+const db = require('../services/database');
 
-let users = [
-    {
-        id: Date.now(),
-        username: "Anni",
-    },
-    {
-        id: Date.now() + 1,
-        username: "Jonas",
-    }
-];
+//ToDo: Why??
+const logger = require('debug')('JSChallenge:solutions');
 
-router.route('/')
+users.route('/')
     .get((req, res, next) => {
-        res.json(users);
+        db.users.getAll(req,res,next);
     })
     .post((req, res, next) => {
-        let user = req.body;
-        user.id = Date.now();
-        users.push(user);
-        res.json(users);
-    });
+        db.users.saveOne(req, res, next);
+    })
+    .all(function (req, res, next) {
+    if (res.locals.processed) {
+        next();
+    } else {
+        // reply with wrong method code 405
+        let err = new Error('this method is not allowed at ' + req.originalUrl);
+        err.status = 405;
+        next(err);
+    }
+});
 
-router.route('/:id')
+users.route('/:id')
     .get((req, res, next) => {
-        res.json(users.filter( user => {
-            return user.id == req.params.id;
-        }));
-    });
+        db.users.getById(req, res, next);
+    })
+    .put((req, res, next) => {
+        db.users.updateById(req, res, next);
+    })
+    .all(function (req, res, next) {
+    if (res.locals.processed) {
+        next();
+    } else {
+        // reply with wrong method code 405
+        let err = new Error('this method is not allowed at ' + req.originalUrl);
+        err.status = 405;
+        next(err);
+    }
+});
 
-module.exports = router;
+module.exports = users;
