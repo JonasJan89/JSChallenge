@@ -3,19 +3,21 @@ const Schema = mongoose.Schema;
 
 const SolutionSchema = new Schema({
     studentID: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        // type: Schema.Types.ObjectId,
+        // ref: 'User',
+        type: String,
         required: [true, 'studentID is required']
     },
     taskID: {
-        type: Schema.Types.ObjectId,
-        ref: 'Task',
+        // type: Schema.Types.ObjectId,
+        // ref: 'Task',
+        type: String,
         required: [true, 'taskID is required']
     },
-    // feedbackID: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Feedback',
-    // },
+    feedbackID: {
+        type: Schema.Types.ObjectId,
+        ref: 'Feedback',
+    },
 
     //ToDo: nice to have
     // questionsID: {
@@ -23,18 +25,20 @@ const SolutionSchema = new Schema({
     //     default: []
     // },
 
-    codePath: {
+    fileName: {
         type: String,
-        required: [true, 'codePath is required']
+        required: [true, 'fileName is required']
     },
+
+    //ToDo: nice to have Sonst eigene Route und eigenes Model
     // testdata: {
     //     type: Array,
     //     default: []
     // },
-    // approvedForLecturer : {
-    //     type: Boolean,
-    //     required: [true, 'approvedForLecturer is required']
-    // }
+    approvedForLecturer: {
+        type: Boolean,
+        default: false
+    }
     }, {
     timestamps: {createdAt: 'timestamp'}
 });

@@ -1,12 +1,12 @@
 const CLIEngine = require("eslint").CLIEngine;
 const cli = new CLIEngine();
 
-const staticAssessor = (filePath) => {
+const staticAssessor = (fileName) => {
     let results = [];
-    cli.executeOnFiles([filePath]).results.forEach( result => {
+    cli.executeOnFiles([`./files/studentdsCode/${fileName}`]).results.forEach( result => {
         result.messages.forEach( message => results.push(message));
     });
-    console.log(results);
+    return results;
 };
 
 module.exports = staticAssessor;

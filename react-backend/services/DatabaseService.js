@@ -14,19 +14,24 @@ const DatabaseService = {
 
         saveOne: (req, res, next) => {
 
+            const solution = {
+                'studentID': req.fields.studentID || undefined,
+                'taskID': req.fields.taskID || undefined,
+                'fileName': `${req.fields.studentID}_${req.fields.taskID}.js` || undefined,
+                'approvedForLecturer': req.fields.approvedForLecturer || undefined,
+            };
+
             SolutionModel.findOneAndUpdate({
-                    'studentID': `${req.body.studentID}`,
-                    'taskID': `${req.body.taskID}`
-                }, req.body,
+                    'studentID': solution.studentID,
+                    'taskID': solution.taskID
+                }, solution,
                 { new: true },
                 function (err, item) {
                     if (err) {
                         next(err);
-                        return;
                     }
-
                     if(!item) {
-                        let model = new SolutionModel(req.body);
+                        let model = new SolutionModel(solution);
 
                         model.save(function (err, item) {
                             if (err) {
@@ -40,14 +45,11 @@ const DatabaseService = {
                                 next();
                             }
                         });
-
                     } else {
-
                         res.status(200);
                         res.locals.items = item;
                         res.locals.processed = true;
                         next();
-
                     }
                 }
             );
@@ -82,6 +84,20 @@ const DatabaseService = {
                 }
             });
         },
+
+        getByIdWR: (req, res, next, assessSolution) => {
+            SolutionModel.findById(req.params.solutionID, function(err, item) {
+                if(err) {
+                    next(err);
+                } else if (!item) {
+                    let error = new Error('No solution found with id: ' + req.params.id);
+                    error.status = 404;
+                    next(error);
+                } else {
+                    assessSolution(req, res, next, item);
+                }
+            });
+        }
     },
 
     users: {
