@@ -29,6 +29,7 @@ users.route('/:id')
     .put((req, res, next) => {
         db.users.updateById(req, res, next);
     })
+    //ToDo delete for admin
     .all(function (req, res, next) {
     if (res.locals.processed) {
         next();

@@ -1,16 +1,11 @@
 const requestHandler = require('express').Router();
-
 const users = require('../routes/users');
 const solutions = require('../routes/solutions');
 const assessor = require('../routes/assessor');
-// const courses = require('../routes/courses');
-// const tasks = require('../routes/tasks');
 
 requestHandler.use('/users', users);
 requestHandler.use('/solutions', solutions);
 requestHandler.use('/assessor', assessor);
-// requestHandler.use('/courses', courses);
-// requestHandler.use('/tasks', tasks);
 
 requestHandler.use(function (req, res, next) {
     if (res.locals.items) {
@@ -37,8 +32,8 @@ requestHandler.use(function(err, req, res, next) {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+    res.status(err.status || 500).end();
+    // res.render('error');
 });
 
 module.exports = requestHandler;

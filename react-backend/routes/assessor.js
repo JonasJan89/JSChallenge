@@ -1,11 +1,11 @@
 const assessor = require('express').Router();
 const db = require('../services/DatabaseService');
-const fs = require('fs');
 const dynamicAssessor = require('../assessors/dynamicAssessor');
 const staticAssessor = require('../assessors/staticAssessor');
 
 //ToDo: Why??
 const logger = require('debug')('JSChallenge:assessor');
+
 const assessSolution = (req, res, next, solution) => {
     dynamicAssessor(solution);
     res.locals.items = staticAssessor(solution.fileName);

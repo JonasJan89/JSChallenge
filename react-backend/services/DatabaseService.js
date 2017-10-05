@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const db = mongoose.connect('mongodb://localhost:27017/JSChallenge');
+mongoose.connect('mongodb://localhost:27017/JSChallenge');
 
 const FeedbackModel = require('../models/feedback');
 const SolutionModel = require('../models/solution');
@@ -103,25 +103,29 @@ const DatabaseService = {
     users: {
 
         saveOne: (req, res, next) => {
-
-            if(UserModel.findOne({'emailAddress':`${req.body.emailAddress}`})) {
-                let error = new Error(`User with EmailAddress: ${req.body.emailAddress} already exists`);
-                error.status = 400;
-                next(error);
-                return;
-            }
-
-            new UserModel(req.body).save(function (err, item) {
-                if (err) {
-                    err.status = 400;
-                    err.message += ' in fields: ' + Object.getOwnPropertyNames(err.errors);
-                    next(err);
-                } else {
-                    res.locals.items = item;
-                    res.locals.processed = true;
-                    res.status(201);
-                    next();
-                }
+            UserModel.findOne({'emailAddress': `${req.body.emailAddress}`}, function(err, item) {
+               if(err) {
+                   err.status = 400;
+                   next(err);
+               } else if  (!item) {
+                   let user = new UserModel(req.body);
+                   user.save(function (err, item) {
+                       if (err) {
+                           err.status = 400;
+                           err.message += ' in fields: ' + Object.getOwnPropertyNames(err.errors);
+                           next(err);
+                       } else {
+                           res.locals.items = item;
+                           res.locals.processed = true;
+                           res.status(201);
+                           next();
+                       }
+                   });
+               } else {
+                   let error = new Error(`User with EmailAddress: ${req.body.emailAddress} already exists`);
+                   error.status = 400;
+                   next(error);
+               }
             });
         },
 
