@@ -27,8 +27,7 @@ class App extends Component {
             body: JSON.stringify(this.state.newUser),
             headers: {
                 "Content-Type": "application/json"
-            },
-            credentials: "same-origin"
+            }
         })
             .then(res => res.json())
             .then(users => this.setState({ users }));

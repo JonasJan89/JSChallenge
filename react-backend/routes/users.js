@@ -1,5 +1,5 @@
 const users = require('express').Router();
-const db = require('../services/database');
+const db = require('../services/DatabaseService');
 
 //ToDo: Why??
 const logger = require('debug')('JSChallenge:solutions');
