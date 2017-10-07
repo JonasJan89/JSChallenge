@@ -15,7 +15,6 @@ users.route('/')
     if (res.locals.processed) {
         next();
     } else {
-        // reply with wrong method code 405
         let err = new Error('this method is not allowed at ' + req.originalUrl);
         err.status = 405;
         next(err);
@@ -34,7 +33,6 @@ users.route('/:id')
     if (res.locals.processed) {
         next();
     } else {
-        // reply with wrong method code 405
         let err = new Error('this method is not allowed at ' + req.originalUrl);
         err.status = 405;
         next(err);

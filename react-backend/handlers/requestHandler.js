@@ -3,11 +3,13 @@ const users = require('../routes/users');
 const solutions = require('../routes/solutions');
 const assessor = require('../routes/assessor');
 const feedback = require('../routes/feedback');
+const tasks = require('../routes/tasks');
 
 requestHandler.use('/users', users);
 requestHandler.use('/solutions', solutions);
 requestHandler.use('/assessor', assessor);
 requestHandler.use('/feedback', feedback);
+requestHandler.use('/tasks', tasks);
 
 requestHandler.use(function (req, res, next) {
     if (res.locals.processed) {

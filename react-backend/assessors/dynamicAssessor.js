@@ -2,14 +2,14 @@ const Mocha = require('mocha');
 const studentsCodeHelper = require('../helper/studentsCodeHelper');
 const unittestHelper = require('../helper/unittestHelper');
 
+const dynamicAssessor = (solution, methods) => {
 
-const dynamicAssessor = (solution) => {
-
-    let methods = require(`../files/unittests/methods_${solution.taskID}`);
     studentsCodeHelper.copyFile(solution.fileName, methods);
     unittestHelper.copyFile(solution, methods);
 
-    //ToDo definitiv ein Problem, welches in der Arbeit beschrieben werden könnte
+    /*ToDo definitiv ein Problem, welches in der Arbeit beschrieben werden könnte.
+        muss sein, weil sonst die Tests nicht doppelt durchlaufen
+     */
     Object.keys(require.cache).forEach( file => {
         delete require.cache[ file ];
     });
@@ -26,11 +26,11 @@ const dynamicAssessor = (solution) => {
                     state: test.state,
                 })
             })
-            .on('fail', function(test) {
+            .on('fail', function(test, err) {
                 testResult.push({
                     title: test.title,
                     state: test.state,
-                    err: test.err,
+                    err: err,
                 })
             })
             .on('end', function() {

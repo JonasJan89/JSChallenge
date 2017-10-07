@@ -2,16 +2,22 @@ const assessor = require('express').Router();
 const db = require('../services/DatabaseService');
 const dynamicAssessor = require('../assessors/dynamicAssessor');
 const staticAssessor = require('../assessors/staticAssessor');
-
-//ToDo: Why??
-const logger = require('debug')('JSChallenge:assessor');
+const studentsCodeHelper = require('../helper/studentsCodeHelper');
 
 let feedback = {};
 const assessSolution = (req, res, next, solution) => {
-
+    let methods = require(`../files/unittests/methods_${solution.taskID}`);
     feedback = {
         solutionID: solution._id,
     };
+    let missingMethods = studentsCodeHelper.checkForMethods(solution, methods);
+    if( missingMethods.length > 0 ) {
+        feedback.staticAutomaticFeedback = missingMethods;
+        feedback.dynamicAutomaticFeedback = [];
+        db.feedback.saveOne(feedback,res,next);
+        return;
+    }
+
     new Promise((resolve) => {
         resolve(staticAssessor(solution.fileName));
     }).then(saf => {
@@ -21,7 +27,7 @@ const assessSolution = (req, res, next, solution) => {
             db.feedback.saveOne(feedback,res,next);
         } else {
             let p = new Promise(resolve => {
-                resolve(dynamicAssessor(solution));
+                resolve(dynamicAssessor(solution, methods));
             });
             p.then(result => {
                 feedback.dynamicAutomaticFeedback = result;
@@ -31,7 +37,6 @@ const assessSolution = (req, res, next, solution) => {
 
     });
 };
-
 
 assessor.route('/:solutionID')
     .get(( req, res, next ) => {

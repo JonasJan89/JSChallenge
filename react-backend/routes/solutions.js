@@ -18,8 +18,8 @@ solutions.route('/')
             next(err);
         }
         db.solutions.saveOne(req, res, next);
-        if(req.files.studentsCode.path && req.fields.studentID && req.fields.taskID) {
-            fs.rename(req.files.studentsCode.path,
+        if(req.files.code.path && req.fields.studentID && req.fields.taskID) {
+            fs.rename(req.files.code.path,
                 `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
                 function (err) {
                     if (err) {
