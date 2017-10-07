@@ -5,7 +5,6 @@ const testfilesDir = './files/testfiles/';
 const unittestHelper = {
 
     copyFile: (solution, methods = []) => {
-
         let extraCode = '';
         methods.forEach(method => {
             extraCode += `\nconst { ${method} } = require('./${solution.fileName}');\n`;

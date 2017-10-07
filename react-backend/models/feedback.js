@@ -7,36 +7,11 @@ const FeedbackSchema = new Schema({
         ref: 'Solution',
         required: [true, 'solutionID is required']
     },
-    //ToDo: nice to have
-    // questionsID: {
-    //     type: Array,
-    //     default: []
-    // },
     staticAutomaticFeedback: {
         type: Array,
         required: [true, 'staticAutomaticFeedback is required']
     },
     dynamicAutomaticFeedback: {
-        type: Array,
-        default: []
-    },
-    lecturerFeedback: {
-        type: Array,
-        default: []
-    },
-    systemGrade: {
-        type: Number,
-        default: 0
-    },
-    systemGradeReasons: {
-        type: Array,
-        default: []
-    },
-    lecturerGrade: {
-        type: Number,
-        default: 0
-    },
-    lecturerGradeReasons: {
         type: Array,
         default: []
     }

@@ -5,8 +5,9 @@ const unittestHelper = require('../helper/unittestHelper');
 
 const dynamicAssessor = (solution) => {
 
-    studentsCodeHelper.copyFile(solution.fileName, ['add', 'sub']);
-    unittestHelper.copyFile(solution, ['add','sub']);
+    let methods = require(`../files/unittests/methods_${solution.taskID}`);
+    studentsCodeHelper.copyFile(solution.fileName, methods);
+    unittestHelper.copyFile(solution, methods);
 
     //ToDo definitiv ein Problem, welches in der Arbeit beschrieben werden könnte
     Object.keys(require.cache).forEach( file => {
@@ -16,7 +17,6 @@ const dynamicAssessor = (solution) => {
     let mocha = new Mocha();
     mocha.addFile(`./files/testfiles/test_${solution.taskID}.js`);
 
-    //ToDo collecting and save in a feedback file
     let p = new Promise(resolve => {
         let testResult = [];
         mocha.reporter('list').run()
@@ -36,8 +36,6 @@ const dynamicAssessor = (solution) => {
             .on('end', function() {
                 resolve(testResult);
             });
-
-
     });
 
     return p.then(testResult => {
@@ -45,8 +43,6 @@ const dynamicAssessor = (solution) => {
         unittestHelper.deleteFile(solution.taskID);
         return testResult;
     });
-
-
 };
 
 module.exports = dynamicAssessor;
