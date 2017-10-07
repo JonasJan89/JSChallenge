@@ -3,9 +3,8 @@ const Schema = mongoose.Schema;
 
 const SolutionSchema = new Schema({
     studentID: {
-        // type: Schema.Types.ObjectId,
-        // ref: 'User',
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: [true, 'studentID is required']
     },
     taskID: {
@@ -14,10 +13,12 @@ const SolutionSchema = new Schema({
         type: String,
         required: [true, 'taskID is required']
     },
-    feedbackID: {
-        type: Schema.Types.ObjectId,
-        ref: 'Feedback',
-    },
+
+    //ToDo think I don't need it
+    // feedbackID: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Feedback',
+    // },
 
     //ToDo: nice to have
     // questionsID: {

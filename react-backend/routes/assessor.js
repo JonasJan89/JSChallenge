@@ -6,13 +6,32 @@ const staticAssessor = require('../assessors/staticAssessor');
 //ToDo: Why??
 const logger = require('debug')('JSChallenge:assessor');
 
+let feedback = {};
 const assessSolution = (req, res, next, solution) => {
-    dynamicAssessor(solution);
-    res.locals.items = staticAssessor(solution.fileName);
-    res.status(200);
-    res.locals.processed = true;
-    next()
+
+    feedback = {
+        solutionID: solution._id,
+    };
+    new Promise((resolve) => {
+        resolve(staticAssessor(solution.fileName));
+    }).then(saf => {
+        feedback.staticAutomaticFeedback = saf;
+        if( feedback.staticAutomaticFeedback.length > 0 ) {
+            feedback.dynamicAutomaticFeedback = [];
+            db.feedback.saveOne(feedback,res,next);
+        } else {
+            let p = new Promise(resolve => {
+                resolve(dynamicAssessor(solution));
+            });
+            p.then(result => {
+                feedback.dynamicAutomaticFeedback = result;
+                db.feedback.saveOne(feedback,res,next);
+            });
+        }
+
+    });
 };
+
 
 assessor.route('/:solutionID')
     .get(( req, res, next ) => {

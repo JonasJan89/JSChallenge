@@ -122,7 +122,7 @@ const DatabaseService = {
                        }
                    });
                } else {
-                   let error = new Error(`User with EmailAddress: ${req.body.emailAddress} already exists`);
+                   let error = new Error(`User with EmailAddress: ${req.body.emailAddress} already exists.`);
                    error.status = 400;
                    next(error);
                }
@@ -133,6 +133,10 @@ const DatabaseService = {
             UserModel.find({}, function (err, items) {
                 if (err) {
                     next(err);
+                } else if ( items.length === 0 ){
+                    res.status(204);
+                    res.locals.processed = true;
+                    next()
                 } else {
                     res.locals.items = items;
                     res.status(200);
@@ -180,6 +184,70 @@ const DatabaseService = {
             });
         }
     },
+
+    feedback: {
+        saveOne: (feedback, res, next) => {
+            FeedbackModel.findOneAndUpdate({solutionID: feedback.solutionID}, feedback, { new: true }, function(err, item){
+                if (err) {
+                    next(err);
+                }
+                if(!item) {
+                    let model = new FeedbackModel(feedback);
+                    model.save(function (err, item) {
+                        if (err) {
+                            err.status = 400;
+                            err.message += ' in fields: ' + Object.getOwnPropertyNames(err.errors);
+                            next(err);
+                        } else {
+                            res.locals.items = item;
+                            res.locals.processed = true;
+                            res.status(201);
+                            next();
+                        }
+                    });
+                } else {
+                    res.status(200);
+                    res.locals.items = item;
+                    res.locals.processed = true;
+                    next();
+                }
+            });
+        },
+
+        getById: (req, res, next) => {
+            FeedbackModel.findById(req.params.id, function(err, item) {
+                if(err) {
+                    next(err);
+                } else if (!item) {
+                    let error = new Error('No feedback found with id: ' + req.params.id);
+                    error.status = 404;
+                    next(error);
+                } else {
+                    res.status(200);
+                    res.locals.items = item;
+                    res.locals.processed = true;
+                    next();
+                }
+            });
+        },
+
+        getByIdWR: (id) => {
+            let error = new Error();
+            console.log(error);
+            let feedback = {};
+            FeedbackModel.findById(id, function (err, item) {
+                if (err) {
+                    error = err;
+                } else if (!item) {
+                    error.message = 'No feedback found with id: ' + id;
+                    error.status = 404;
+                } else {
+                    feedback = item;
+                }
+            });
+            return {error, feedback};
+        }
+    }
 };
 
 module.exports = DatabaseService;

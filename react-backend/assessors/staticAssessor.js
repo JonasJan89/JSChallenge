@@ -2,12 +2,16 @@ const CLIEngine = require("eslint").CLIEngine;
 const cli = new CLIEngine();
 
 const staticAssessor = (fileName) => {
-    //ToDo get feedback object and save information in it using databaseService
-    let results = [];
-    cli.executeOnFiles([`./files/studentdsCode/${fileName}`]).results.forEach( result => {
-        result.messages.forEach( message => results.push(message));
+    let p = new Promise((resolve) => {
+        resolve(cli.executeOnFiles([`./files/studentsCode/${fileName}`]).results);
     });
-    return results;
+    return p.then(results => {
+        let result = [];
+        results.forEach( r => {
+           r.messages.forEach( m => result.push(m));
+        });
+        return result;
+    });
 };
 
 module.exports = staticAssessor;
