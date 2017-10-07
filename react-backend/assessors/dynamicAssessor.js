@@ -5,8 +5,8 @@ const unittestHelper = require('../helper/unittestHelper');
 
 const dynamicAssessor = (solution) => {
 
-    studentsCodeHelper.copyFile(solution.fileName, ['add']);
-    unittestHelper.copyFile(solution, ['add']);
+    studentsCodeHelper.copyFile(solution.fileName, ['add', 'sub']);
+    unittestHelper.copyFile(solution, ['add','sub']);
 
     //ToDo definitiv ein Problem, welches in der Arbeit beschrieben werden könnte
     Object.keys(require.cache).forEach( file => {
@@ -17,28 +17,35 @@ const dynamicAssessor = (solution) => {
     mocha.addFile(`./files/testfiles/test_${solution.taskID}.js`);
 
     //ToDo collecting and save in a feedback file
-    mocha.run()
-        .on('test', function(test) {
-            console.log('Test started: '+test.title);
-        })
-        .on('test end', function(test) {
-            console.log('Test done: '+test.title);
-        })
-        .on('pass', function(test) {
-            console.log('Test passed');
-            console.log(test);
-        })
-        .on('fail', function(test, err) {
-            console.log('Test fail');
-            console.log(test);
-            console.log(err);
-        })
-        .on('end', function() {
-            console.log('All done');
-        });
+    let p = new Promise(resolve => {
+        let testResult = [];
+        mocha.reporter('list').run()
+            .on('pass', function(test) {
+                testResult.push({
+                    title: test.title,
+                    state: test.state,
+                })
+            })
+            .on('fail', function(test) {
+                testResult.push({
+                    title: test.title,
+                    state: test.state,
+                    err: test.err,
+                })
+            })
+            .on('end', function() {
+                resolve(testResult);
+            });
 
-    studentsCodeHelper.deleteFile(solution.fileName);
-    unittestHelper.deleteFile(solution.taskID);
+
+    });
+
+    return p.then(testResult => {
+        studentsCodeHelper.deleteFile(solution.fileName);
+        unittestHelper.deleteFile(solution.taskID);
+        return testResult;
+    });
+
 
 };
 
