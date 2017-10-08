@@ -5,45 +5,53 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
-            newUser: {},
+            tasks: [],
+
         };
     }
 
     componentDidMount() {
-        fetch('/users')
-            .then(res => res.json())
-            .then(users => this.setState({ users }));
+        fetch('/tasks')
+            .then(res => {
+                if(res.status !== 204){
+                    return res.json();
+                }
+            })
+            .then(tasks => {
+                if(tasks) {
+                    this.setState({ tasks })
+                }
+            });
     }
 
-    handleChange = (event) => {
-        this.setState({newUser: {username: event.target.value}});
-        event.preventDefault();
-    };
-
-    handleSubmit = (event) => {
-        fetch('/users', {
-            method: "POST",
-            body: JSON.stringify(this.state.newUser),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then(users => this.setState({ users }));
-        event.preventDefault();
-    };
+    // handleChange = (event) => {
+    //     this.setState({newUser: {username: event.target.value}});
+    //     event.preventDefault();
+    // };
+    //
+    // handleSubmit = (event) => {
+    //     fetch('/users', {
+    //         method: "POST",
+    //         body: JSON.stringify(this.state.newUser),
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     })
+    //         .then(res => res.json())
+    //         .then(users => this.setState({ users }));
+    //     event.preventDefault();
+    // };
 
     render() {
         return (
             <div className="App">
-                <h1>Users</h1>
-                {this.state.users.map(user =>
-                    <div key={user.id}>{user.username}</div>
-                )}
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" name="name" onChange={this.handleChange}/>
-                </form>
+                <h1>Hier sind die tasks</h1>
+                {this.state.tasks.map(task => {
+                    if (task !== undefined) {
+                        return <h3 key={task._id} >{task.title} {task.taskText}</h3>;
+                    }
+                    return null;
+                })}
             </div>
         );
     }

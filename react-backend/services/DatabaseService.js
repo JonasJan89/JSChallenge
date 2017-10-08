@@ -322,7 +322,7 @@ const DatabaseService = {
 
         updateById: (req, res, next ) => {
 
-            if (req.fields._id !== req.params.id) {
+            if (req.fields.id !== req.params.id) {
                 let err = new Error('id of request param and send field have to be the same.');
                 err.status = 400;
                 next(err);

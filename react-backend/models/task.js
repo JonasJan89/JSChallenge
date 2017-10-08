@@ -8,7 +8,7 @@ const TaskSchema = new Schema({
     },
     fileName: {
         type: String,
-        default: ''
+        default: null
     },
     taskText: {
         type: String,

@@ -8,7 +8,9 @@ tasks.route('/')
         db.tasks.getAll(req,res,next);
     })
     .post(formidable({uploadDir: './tmp'}), (req, res, next) => {
-        if(req.files && req.files.code !== undefined ) {
+        console.log(1);
+        if(req.files && req.files.code !== undefined && req.fields.title !== undefined) {
+            console.log(2);
             req.fields.fileName = `${req.fields.title}.js`;
             fs.rename(req.files.code.path,
                 `files/tasks/${req.fields.title}.js`,
@@ -16,11 +18,14 @@ tasks.route('/')
                     if (err) {
                         next(err);
                     }
+                    console.log(3);
                 }
             );
         } else {
-            req.fields.fileName = '';
+            console.log(4);
+            req.fields.fileName = null;
         }
+        console.log(5);
         db.tasks.saveOne(req, res, next);
     })
     .all(function (req, res, next) {
