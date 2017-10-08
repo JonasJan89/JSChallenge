@@ -13,10 +13,10 @@ const DatabaseService = {
         saveOne: (req, res, next) => {
 
             const solution = {
-                'studentID': req.fields.studentID || undefined,
-                'taskID': req.fields.taskID || undefined,
-                'fileName': `${req.fields.studentID}_${req.fields.taskID}.js` || undefined,
-                'approvedForLecturer': req.fields.approvedForLecturer || undefined,
+                'studentID': req.fields.studentID || null,
+                'taskID': req.fields.taskID || null,
+                'fileName': `${req.fields.studentID}_${req.fields.taskID}.js` || null,
+                'approvedForLecturer': req.fields.approvedForLecturer || null,
             };
 
             SolutionModel.findOneAndUpdate({
@@ -57,7 +57,7 @@ const DatabaseService = {
             SolutionModel.find({}, function (err, items) {
                 if (err) {
                     next(err);
-                } else if(item) {
+                } else if(items) {
                     res.locals.items = items;
                     res.status(200);
                     res.locals.processed = true;

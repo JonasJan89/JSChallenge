@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 
 const SolutionSchema = new Schema({
     studentID: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        // type: Schema.Types.ObjectId,
+        // ref: 'User',
+        type: String,
         required: [true, 'studentID is required']
     },
     taskID: {
-        // type: Schema.Types.ObjectId,
-        // ref: 'Task',
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Task',
         required: [true, 'taskID is required']
     },
 
