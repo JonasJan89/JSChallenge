@@ -12,7 +12,10 @@ const assessSolution = (req, res, next, solution) => {
     };
     let missingMethods = studentsCodeHelper.checkForMethods(solution, methods);
     if( missingMethods.length > 0 ) {
-        feedback.staticAutomaticFeedback = missingMethods;
+        feedback.staticAutomaticFeedback = [{
+            type: 'missingMethods',
+            message: missingMethods,
+        }];
         feedback.dynamicAutomaticFeedback = [];
         db.feedback.saveOne(feedback,res,next);
         return;
