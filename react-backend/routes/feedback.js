@@ -4,14 +4,13 @@ const db = require('../services/DatabaseService');
 //ToDo: Why??
 const logger = require('debug')('JSChallenge:feedback');
 
-feedback.route('/:id')
+feedback.route('/:solutionID')
     .get((req, res, next) => {
-        db.feedback.getById(req, res, next);
+        db.feedback.getBySolutionId(req, res, next);
     })
-        //todo nice to have
-    // .put((req, res, next) => {
-    //     db.users.updateById(req, res, next);
-    // })
+    .put((req, res, next) => {
+        db.feedback.updateBySolutionId(req, res, next);
+    })
     .all(function (req, res, next) {
         if (res.locals.processed) {
             next();

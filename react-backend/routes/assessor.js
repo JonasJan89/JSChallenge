@@ -9,6 +9,8 @@ const assessSolution = (req, res, next, solution) => {
     let methods = require(`../files/unittests/methods_${solution.taskID}`);
     feedback = {
         solutionID: solution._id,
+        staticAutomaticFeedback: [],
+        dynamicAutomaticFeedback: [],
     };
     let missingMethods = studentsCodeHelper.checkForMethods(solution, methods);
     if( missingMethods.length > 0 ) {
@@ -16,7 +18,6 @@ const assessSolution = (req, res, next, solution) => {
             type: 'missingMethods',
             message: missingMethods,
         }];
-        feedback.dynamicAutomaticFeedback = [];
         db.feedback.saveOne(feedback,res,next);
         return;
     }
@@ -26,7 +27,6 @@ const assessSolution = (req, res, next, solution) => {
     }).then(saf => {
         feedback.staticAutomaticFeedback = saf;
         if( feedback.staticAutomaticFeedback.length > 0 ) {
-            feedback.dynamicAutomaticFeedback = [];
             db.feedback.saveOne(feedback,res,next);
         } else {
             let p = new Promise(resolve => {

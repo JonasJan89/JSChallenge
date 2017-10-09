@@ -24,7 +24,7 @@ export default class DynamicFeedbackView extends Component {
         }
         return(
             <div className="dynamic-feedback-view">
-                <h4>dynamic issues:</h4>
+                <h4>Unit test feedback:</h4>
                 {this.state.dynamicFeedback.map((feedback, index) => {
                     return (
                         <div key={index}>

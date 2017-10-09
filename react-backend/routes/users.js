@@ -2,7 +2,7 @@ const users = require('express').Router();
 const db = require('../services/DatabaseService');
 
 //ToDo: Why??
-const logger = require('debug')('JSChallenge:solutions');
+const logger = require('debug')('JSChallenge:users');
 
 users.route('/')
     .get((req, res, next) => {

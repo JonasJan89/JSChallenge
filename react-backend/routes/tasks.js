@@ -1,31 +1,13 @@
 const tasks = require('express').Router();
 const db = require('../services/DatabaseService');
-const fs = require('fs');
 const formidable = require('express-formidable');
+const fs = require('fs');
 
 tasks.route('/')
     .get((req, res, next) => {
         db.tasks.getAll(req,res,next);
     })
     .post(formidable({uploadDir: './tmp'}), (req, res, next) => {
-        console.log(1);
-        if(req.files && req.files.code !== undefined && req.fields.title !== undefined) {
-            console.log(2);
-            req.fields.fileName = `${req.fields.title}.js`;
-            fs.rename(req.files.code.path,
-                `files/tasks/${req.fields.title}.js`,
-                function (err) {
-                    if (err) {
-                        next(err);
-                    }
-                    console.log(3);
-                }
-            );
-        } else {
-            console.log(4);
-            req.fields.fileName = null;
-        }
-        console.log(5);
         db.tasks.saveOne(req, res, next);
     })
     .all(function (req, res, next) {
@@ -43,17 +25,6 @@ tasks.route('/:id')
         db.tasks.getById(req, res, next);
     })
     .put(formidable({uploadDir: './tmp'}), (req, res, next) => {
-        if(req.files && req.files.code !== undefined ) {
-            req.fields.fileName = `${req.fields.title}.js`;
-            fs.rename(req.files.code.path,
-                `files/tasks/${req.fields.title}.js`,
-                function (err) {
-                    if (err) {
-                        next(err);
-                    }
-                }
-            );
-        }
         db.tasks.updateById(req, res, next);
     })
     .all(function (req, res, next) {
@@ -66,10 +37,10 @@ tasks.route('/:id')
         }
     });
 
-tasks.route('/download/:title')
+tasks.route('/:id/download')
     .get((req,res,next) => {
-        if(fs.existsSync(`./files/tasks/${req.params.title}.js`)) {
-            res.download(`./files/tasks/${req.params.title}.js`, `${req.params.title}.js`, function(err){
+        if(fs.existsSync(`./files/tasks/${req.params.id}.js`)) {
+            res.download(`./files/tasks/${req.params.id}.js`, `${req.params.id}.js`, function(err){
                 if (err) {
                     next(err);
                 }

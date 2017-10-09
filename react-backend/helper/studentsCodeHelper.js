@@ -4,7 +4,7 @@ const testfilesDir = './files/testfiles/';
 
 const studentsCodeHelper = {
 
-    copyFile: (fileName = '', methods = []) => {
+    prepareFile: (fileName = '', methods = []) => {
         let extraCode = '\n\nmodule.exports = { ';
         methods.forEach(method => {
             extraCode += `${method}: ${method} || undefined,`;

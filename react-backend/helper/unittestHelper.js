@@ -4,12 +4,12 @@ const testfilesDir = './files/testfiles/';
 
 const unittestHelper = {
 
-    copyFile: (solution, methods = []) => {
+    prepareFile: (solution, methods = []) => {
+        fs.copyFileSync(`${unittestDir}test_${solution.taskID}.js`, `${testfilesDir}test_${solution.taskID}.js`);
         let extraCode = '';
         methods.forEach(method => {
             extraCode += `\nconst { ${method} } = require('./${solution.fileName}');\n`;
         });
-        fs.copyFileSync(`${unittestDir}test_${solution.taskID}.js`, `${testfilesDir}test_${solution.taskID}.js`);
         fs.appendFileSync(`${testfilesDir}test_${solution.taskID}.js`, extraCode);
     },
 

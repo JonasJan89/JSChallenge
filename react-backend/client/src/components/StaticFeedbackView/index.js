@@ -17,7 +17,7 @@ export default class StaticFeedbackView extends Component {
         if(this.state.staticFeedback.length <= 0) {
             return (
                 <div className="static-feedback-view">
-                    <p>No static issues in your code found. Great!</p>
+                    <h4>No static issues in your code found. Great!</h4>
                 </div>
             );
         }
@@ -28,7 +28,8 @@ export default class StaticFeedbackView extends Component {
                     if (feedback.type && feedback.type === 'missingMethods') {
                         return (
                             <div key={index}>
-                                <p>{feedback.message}</p>
+                                <h4>There are some methods missing:</h4>
+                                {feedback.message.map((m,i) => <p key={i}>${m}</p>)}
                             </div>
                         );
                     }

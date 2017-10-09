@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/JSChallenge');
+const fs = require('fs');
+
 
 const FeedbackModel = require('../models/feedback');
 const SolutionModel = require('../models/solution');
@@ -30,7 +32,6 @@ const DatabaseService = {
                     }
                     if(!item) {
                         let model = new SolutionModel(solution);
-
                         model.save(function (err, item) {
                             if (err) {
                                 err.status = 400;
@@ -70,15 +71,14 @@ const DatabaseService = {
             });
         },
 
-        getById: (req, res, next ) => {
-            SolutionModel.findById(req.params.id, function (err, item) {
+        getByTaskId: (req, res, next ) => {
+            SolutionModel.find({taskID: req.params.taskID}, function (err, item) {
                 if (err) {
                     next(err);
                 } else if (!item) {
-                    //ToDo müsste sein wie:  res.status(204); res.locals.processed = true; next();
-                    let error = new Error('No solution found with id: ' + req.params.id);
-                    error.status = 404;
-                    next(error);
+                    res.status(204);
+                    res.locals.processed = true;
+                    next()
                 } else {
                     res.locals.items = item;
                     res.status(200);
@@ -166,16 +166,9 @@ const DatabaseService = {
             });
         },
 
-        updateById: (req, res, next ) => {
+        updateBySolutionId: (req, res, next ) => {
 
-            if (req.body._id !== req.params.id) {
-                let err = new Error('id of request param and send JSON body have to be the same.');
-                err.status = 400;
-                next(err);
-                return;
-            }
-
-            UserModel.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, item) {
+            UserModel.findOneAndUpdate({'solutionID': `${req.params.solutionID}`}, req.body, {new: true}, function (err, item) {
                 if (err) {
                     next(err);
                 } else if(item){
@@ -184,9 +177,9 @@ const DatabaseService = {
                     res.locals.processed = true;
                     next();
                 } else {
-                    res.status(204);
-                    res.locals.processed = true;
-                    next();
+                    let error = new Error(`User with ID: ${req.params.id} does not exists.`);
+                    error.status = 400;
+                    next(error);
                 }
             });
         }
@@ -194,7 +187,7 @@ const DatabaseService = {
 
     feedback: {
         saveOne: (feedback, res, next) => {
-            FeedbackModel.findOneAndUpdate({solutionID: feedback.solutionID}, feedback, { new: true }, function(err, item){
+            FeedbackModel.findOneAndUpdate({'solutionID': `${feedback.solutionID}`}, feedback, { new: true }, function(err, item){
                 if (err) {
                     next(err);
                 }
@@ -221,8 +214,8 @@ const DatabaseService = {
             });
         },
 
-        getById: (req, res, next) => {
-            FeedbackModel.findById(req.params.id, function(err, item) {
+        getBySolutionId: (req, res, next) => {
+            FeedbackModel.findOne({'solutionID': `${req.params.solutionID}`}, function(err, item) {
                 if(err) {
                     next(err);
                 } else if (!item) {
@@ -294,28 +287,27 @@ const DatabaseService = {
         },
 
         saveOne: (req, res, next) => {
-
-            TaskModel.findOne({'title': `${req.fields.title}`}, function(err, item){
+            let model = new TaskModel(req.fields);
+            model.save(function (err, item) {
                 if (err) {
+                    err.status = 400;
+                    err.message += ' in fields: ' + Object.getOwnPropertyNames(err.errors);
                     next(err);
-                } else if(!item) {
-                    let model = new TaskModel(req.fields);
-                    model.save(function (err, item) {
-                        if (err) {
-                            err.status = 400;
-                            err.message += ' in fields: ' + Object.getOwnPropertyNames(err.errors);
-                            next(err);
-                        } else {
-                            res.locals.items = item;
-                            res.locals.processed = true;
-                            res.status(201);
-                            next();
-                        }
-                    });
                 } else {
-                    let error = new Error(`Task with title: ${req.fields.title} already exists.`);
-                    error.status = 400;
-                    next(error);
+                    if(req.files && req.files.code !== undefined) {
+                        fs.rename(req.files.code.path,
+                            `files/tasks/${item._id}.js`,
+                            function (err) {
+                                if (err) {
+                                    next(err);
+                                }
+                            }
+                        );
+                    }
+                    res.locals.items = item;
+                    res.locals.processed = true;
+                    res.status(201);
+                    next();
                 }
             });
         },
@@ -333,10 +325,26 @@ const DatabaseService = {
                 if (err) {
                     next(err);
                 } else if(item) {
-                    res.status(200);
-                    res.locals.items = item;
-                    res.locals.processed = true;
-                    next();
+                    if(req.files && req.files.code !== undefined ) {
+                        fs.rename(req.files.code.path,
+                            `files/tasks/${item._id}.js`,
+                            function (err) {
+                                if (err) {
+                                    next(err);
+                                } else {
+                                    res.status(200);
+                                    res.locals.items = item;
+                                    res.locals.processed = true;
+                                    next();
+                                }
+                            }
+                        );
+                    } else {
+                        res.status(200);
+                        res.locals.items = item;
+                        res.locals.processed = true;
+                        next();
+                    }
                 } else {
                     res.status(204);
                     res.locals.processed = true;

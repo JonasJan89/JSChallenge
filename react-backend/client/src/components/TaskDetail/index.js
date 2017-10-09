@@ -14,13 +14,13 @@ export default class TaskDetail extends Component {
     }
 
     handleTaskDownload = (event) => {
-        let title = event.target.value;
-        axios.get(`/tasks/download/${title}`)
+        axios.get(`/tasks/${this.state.task._id}/download`)
             .then(res => {
                 if(res.status === 204){
                     alert("Sorry, das File wurde nicht gefunden.");
                 } else {
-                    fileDownload(res, `${title}.js`);
+                    console.log(res);
+                    fileDownload(res.data, `${this.state.task.title}.js`);
                 }
             })
             .catch(err => alert(err));
@@ -35,8 +35,8 @@ export default class TaskDetail extends Component {
             <div className="task-detail">
                 <h4 className="task-detail__title" >{this.state.task.title}</h4>
                 <p className="task-detail__text" >{this.state.task.taskText}</p>
-                {this.state.task.fileName &&
-                <button onClick={this.handleTaskDownload} value={this.state.task.title} className="task-detail__download-button">
+                {this.state.task.withFile &&
+                <button onClick={this.handleTaskDownload} className="task-detail__download-button">
                     {this.state.task.title} Codedownload
                 </button>
                 }

@@ -23,7 +23,6 @@ solutions.route('/')
                 `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
                 function (err) {
                     if (err) {
-                        //ToDo: error handling
                         next(err);
                     }
                 }
@@ -40,9 +39,9 @@ solutions.route('/')
         }
     });
 
-solutions.route('/:id')
+solutions.route('/:taskID')
     .get((req, res, next) => {
-        db.solutions.getById( req, res, next );
+        db.solutions.getByTaskId( req, res, next );
     })
     .all(function (req, res, next) {
         if (res.locals.processed) {

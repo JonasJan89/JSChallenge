@@ -25,7 +25,7 @@ export default class FeedbackView extends Component {
                 {this.state.feedback && this.state.feedback.staticFeedback &&
                     <StaticFeedbackView staticFeedback={this.state.feedback.staticFeedback}/>
                 }
-                {this.state.feedback && this.state.feedback.staticFeedback &&
+                {this.state.feedback && this.state.feedback.dynamicFeedback && this.state.feedback.staticFeedback.length <= 0 &&
                     <DynamicFeedbackView dynamicFeedback={this.state.feedback.dynamicFeedback}/>
                 }
             </div>
