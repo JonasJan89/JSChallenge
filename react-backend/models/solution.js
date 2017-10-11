@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const SolutionSchema = new Schema({
-    studentID: {
-        // type: Schema.Types.ObjectId,
-        // ref: 'User',
-        type: String,
-        required: [true, 'studentID is required']
-    },
+    // studentID: {
+    //     // type: Schema.Types.ObjectId,
+    //     // ref: 'User',
+    //     type: String,
+    //     required: [true, 'studentID is required']
+    // },
     taskID: {
         type: Schema.Types.ObjectId,
         ref: 'Task',

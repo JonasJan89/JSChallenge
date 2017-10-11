@@ -13,16 +13,16 @@ const DatabaseService = {
     solutions: {
 
         saveOne: (req, res, next) => {
-
             const solution = {
-                'studentID': req.fields.studentID || null,
+                // 'studentID': req.fields.studentID || null,
                 'taskID': req.fields.taskID || null,
-                'fileName': `${req.fields.studentID}_${req.fields.taskID}.js` || null,
+                // 'fileName': `${req.fields.studentID}_${req.fields.taskID}.js` || null,
+                'fileName': `${req.fields.taskID}.js` || null,
                 'approvedForLecturer': req.fields.approvedForLecturer || null,
             };
 
             SolutionModel.findOneAndUpdate({
-                    'studentID': solution.studentID,
+                    // 'studentID': solution.studentID,
                     'taskID': solution.taskID
                 }, solution,
                 { new: true },

@@ -9,8 +9,14 @@ export default class TaskDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: this.props.task,
+            taskId: props.match.params.id,
         };
+    }
+
+    componentDidMount() {
+        axios.get(`/tasks/${this.state.taskId}`)
+            .then(task => this.setState({ task: task.data }))
+            .catch(err => alert(err));
     }
 
     handleTaskDownload = (event) => {

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-//components
-import TaskDetail from '../TaskDetail';
 
-export default class TaskView extends Component {
+export default class TasksView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,14 +24,21 @@ export default class TaskView extends Component {
         return (
             <div className="task-view">
                 <h3>Hier sind die tasks!</h3>
+                <ul>
                 {this.state.tasks.map(task => {
                    return (
-                       <div key={task._id} className="task-view__task-detail">
-                           <TaskDetail task={task} />
-                       </div>
+                       <li key={task._id}>
+                           <Link  to={{
+                               pathname: `/tasks/${task._id}`,
+                           }}>
+                               {task.title}
+                           </Link>
+                       </li>
                    );
                 })}
+                </ul>
             </div>
         );
     }
 }
+

@@ -18,9 +18,11 @@ solutions.route('/')
             next(err);
         }
         db.solutions.saveOne(req, res, next);
-        if(req.files.code.path && req.fields.studentID && req.fields.taskID) {
+        // if(req.files.code.path && req.fields.studentID && req.fields.taskID) {
+        if(req.files.code.path && req.fields.taskID) {
             fs.rename(req.files.code.path,
-                `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
+                // `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
+                `files/studentsCode/${req.fields.taskID}.js`,
                 function (err) {
                     if (err) {
                         next(err);

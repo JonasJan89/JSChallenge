@@ -35,6 +35,7 @@ const dynamicAssessor = (solution, methods) => {
         /*ToDo definitiv ein Problem, welches in der Arbeit beschrieben werden könnte.
             muss sein, weil sonst die Tests nicht doppelt durchlaufen
          */
+
         Object.keys(require.cache).forEach( file => {
             delete require.cache[ file ];
         });

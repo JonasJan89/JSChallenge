@@ -32,8 +32,8 @@ export default class SolutionUpload extends Component {
         formData.append('code', this.state.file);
 
         //ToDo user registrieren und nicht mehr hard coden
+        // formData.append('studentID', 123);
 
-        formData.append('studentID', 123);
         formData.append('taskID', this.state.taskID);
         return formData;
     };
@@ -61,7 +61,9 @@ export default class SolutionUpload extends Component {
                 <form ref="solutionUpload" onSubmit={this.handleSubmit}>
                     <p>Solution upload</p>
                     <input type="file" onChange={this.handleChange} />
-                    <button type="submit">Upload</button>
+                    {this.state.file !== null &&
+                        <button type="submit">Upload</button>
+                    }
                 </form>
                 {this.state.solution &&
                     <AssessorView solutionID={this.state.solution._id} />
