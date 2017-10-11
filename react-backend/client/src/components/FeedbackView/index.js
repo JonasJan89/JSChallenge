@@ -20,7 +20,6 @@ export default class FeedbackView extends Component {
     }
 
     getFeedback = () => {
-        console.log('get feedback');
         axios.get(`/assessor/${this.state.solutionID}`)
             .then(res => {
                 this.setState({
@@ -28,8 +27,7 @@ export default class FeedbackView extends Component {
                         staticFeedback: res.data.staticAutomaticFeedback,
                         dynamicFeedback: res.data.dynamicAutomaticFeedback
                     },
-                })
-                console.log(res.data);
+                });
             })
             .catch(err => alert(err));
     };

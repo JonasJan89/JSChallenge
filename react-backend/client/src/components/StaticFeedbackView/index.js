@@ -29,7 +29,7 @@ export default class StaticFeedbackView extends Component {
                         return (
                             <div key={index}>
                                 <h4>There are some methods missing:</h4>
-                                {feedback.message.map((m,i) => <p key={i}>${m}</p>)}
+                                {feedback.message.map((m,i) => <p key={i}>{m}</p>)}
                             </div>
                         );
                     }

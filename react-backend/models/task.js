@@ -8,10 +8,9 @@ const TaskSchema = new Schema({
     },
     taskText: {
         type: String,
-        required: [true, 'teskText is required']
+        required: [true, 'taskText is required']
     },
-
-    withFile: {
+    withCodeFile: {
         type: Boolean,
         default: false,
     }

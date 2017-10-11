@@ -52,7 +52,6 @@ export default class SolutionUpload extends Component {
                     'content-type': 'multipart/form-data'
                 }})
                 .then((res)=>{
-                console.log(res.data);
                     this.setState({
                         solution: res.data,
                         file: null,

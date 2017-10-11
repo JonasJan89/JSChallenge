@@ -38,6 +38,17 @@ const DatabaseService = {
                                 err.message += ' in fields: ' + Object.getOwnPropertyNames(err.errors);
                                 next(err);
                             } else {
+                                if(req.files.code.path && req.fields.taskID) {
+                                    fs.rename(req.files.code.path,
+                                        // `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
+                                        `files/studentsCode/${req.fields.taskID}.js`,
+                                        function (err) {
+                                            if (err) {
+                                                next(err);
+                                            }
+                                        }
+                                    );
+                                }
                                 res.locals.items = item;
                                 res.locals.processed = true;
                                 res.status(201);
@@ -291,7 +302,6 @@ const DatabaseService = {
 
         getByIdWR: (id) => {
             let error = new Error();
-            console.log(error);
             let feedback = {};
             FeedbackModel.findById(id, function (err, item) {
                 if (err) {
@@ -345,6 +355,18 @@ const DatabaseService = {
         },
 
         saveOne: (req, res, next) => {
+            if(!req.files.unittestFile) {
+                let error = new Error('Missing unittest file!');
+                error.status = 400;
+                next(error);
+                return;
+            }
+            if(!req.files.methodsFile) {
+                let error = new Error('Missing methods file!');
+                error.status = 400;
+                next(error);
+                return;
+            }
             let model = new TaskModel(req.fields);
             model.save(function (err, item) {
                 if (err) {
@@ -362,6 +384,22 @@ const DatabaseService = {
                             }
                         );
                     }
+                    fs.rename(req.files.unittestFile.path,
+                        `files/unittests/test_${item._id}.js`,
+                        function (err) {
+                            if (err) {
+                                next(err);
+                            }
+                        }
+                    );
+                    fs.rename(req.files.methodsFile.path,
+                        `files/unittests/methods_${item._id}.js`,
+                        function (err) {
+                            if (err) {
+                                next(err);
+                            }
+                        }
+                    );
                     res.locals.items = item;
                     res.locals.processed = true;
                     res.status(201);
@@ -383,20 +421,41 @@ const DatabaseService = {
                 if (err) {
                     next(err);
                 } else if(item) {
-                    if(req.files && req.files.code !== undefined ) {
-                        fs.rename(req.files.code.path,
-                            `files/tasks/${item._id}.js`,
-                            function (err) {
-                                if (err) {
-                                    next(err);
-                                } else {
-                                    res.status(200);
-                                    res.locals.items = item;
-                                    res.locals.processed = true;
-                                    next();
+                    if(req.files) {
+                        if (req.files.code !== undefined) {
+                            fs.rename(req.files.code.path,
+                                `files/tasks/${item._id}.js`,
+                                function (err) {
+                                    if (err) {
+                                        next(err);
+                                    }
                                 }
-                            }
-                        );
+                            );
+                        }
+                        if (req.files.unittestFile !== undefined) {
+                            fs.rename(req.files.unittestFile.path,
+                                `files/unittests/test_${item._id}.js`,
+                                function (err) {
+                                    if (err) {
+                                        next(err);
+                                    }
+                                }
+                            );
+                        }
+                        if (req.files.methodsFile !== undefined) {
+                            fs.rename(req.files.methodsFile.path,
+                                `files/unittest/methods_${item._id}.js`,
+                                function (err) {
+                                    if (err) {
+                                        next(err);
+                                    }
+                                }
+                            );
+                        }
+                        res.status(200);
+                        res.locals.items = item;
+                        res.locals.processed = true;
+                        next();
                     } else {
                         res.status(200);
                         res.locals.items = item;
