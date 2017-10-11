@@ -20,10 +20,6 @@ export default class SolutionUpload extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if(this.state.file === null) {
-            alert('Please choose a file to upload.');
-            return;
-        }
         this.uploadData(this.createFormData());
     };
 

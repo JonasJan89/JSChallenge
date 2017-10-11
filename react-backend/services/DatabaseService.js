@@ -54,6 +54,23 @@ const DatabaseService = {
             );
         },
 
+        updateById: (req,res,next) => {
+            SolutionModel.findByIdAndUpdate(req.params.id, req.fields, {new: true}, function (err, item) {
+                if (err) {
+                    next(err);
+                } else if(item) {
+                    res.status(200);
+                    res.locals.items = item;
+                    res.locals.processed = true;
+                    next();
+                } else {
+                    res.status(204);
+                    res.locals.processed = true;
+                    next();
+                }
+            });
+        },
+
         getAll: (req, res, next) => {
             SolutionModel.find({}, function (err, items) {
                 if (err) {
@@ -67,6 +84,23 @@ const DatabaseService = {
                     res.status(204);
                     res.locals.processed = true;
                     next();
+                }
+            });
+        },
+
+        getById: (req, res, next ) => {
+            SolutionModel.findById(req.params.solutionID, function (err, item) {
+                if (err) {
+                    next(err);
+                } else if (!item) {
+                    res.status(204);
+                    res.locals.processed = true;
+                    next()
+                } else {
+                    res.locals.items = item;
+                    res.status(200);
+                    res.locals.processed = true;
+                    next()
                 }
             });
         },
