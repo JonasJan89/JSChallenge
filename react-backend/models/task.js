@@ -6,10 +6,6 @@ const TaskSchema = new Schema({
         type: String,
         required: [true, 'title is required']
     },
-    taskText: {
-        type: String,
-        required: [true, 'taskText is required']
-    },
     withCodeFile: {
         type: Boolean,
         default: false,

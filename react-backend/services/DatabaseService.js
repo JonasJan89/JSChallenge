@@ -356,13 +356,19 @@ const DatabaseService = {
 
         saveOne: (req, res, next) => {
             if(!req.files.unittestFile) {
-                let error = new Error('Missing unittest file!');
+                let error = new Error('Missing unittest JavaScript file!');
                 error.status = 400;
                 next(error);
                 return;
             }
             if(!req.files.methodsFile) {
-                let error = new Error('Missing methods file!');
+                let error = new Error('Missing methods JavaScript file!');
+                error.status = 400;
+                next(error);
+                return;
+            }
+            if(!req.files.taskTextFile) {
+                let error = new Error('Missing task text pdf file!');
                 error.status = 400;
                 next(error);
                 return;
@@ -374,36 +380,58 @@ const DatabaseService = {
                     err.message += ' in fields: ' + Object.getOwnPropertyNames(err.errors);
                     next(err);
                 } else {
+                    let noError = true;
                     if(req.files && req.files.code !== undefined) {
                         fs.rename(req.files.code.path,
-                            `files/tasks/${item._id}.js`,
+                            `files/tasks/code_${item._id}.js`,
                             function (err) {
                                 if (err) {
                                     next(err);
+                                    noError = false;
                                 }
                             }
                         );
                     }
-                    fs.rename(req.files.unittestFile.path,
-                        `files/unittests/test_${item._id}.js`,
-                        function (err) {
-                            if (err) {
-                                next(err);
+                    if( noError ) {
+                        fs.rename(req.files.unittestFile.path,
+                            `files/unittests/test_${item._id}.js`,
+                            function (err) {
+                                if (err) {
+                                    next(err);
+                                    noError = false;
+                                }
                             }
-                        }
-                    );
-                    fs.rename(req.files.methodsFile.path,
-                        `files/unittests/methods_${item._id}.js`,
-                        function (err) {
-                            if (err) {
-                                next(err);
+                        );
+                    }
+                    if( noError ) {
+                        fs.rename(req.files.methodsFile.path,
+                            `files/unittests/methods_${item._id}.js`,
+                            function (err) {
+                                if (err) {
+                                    next(err);
+                                    noError = false;
+                                }
                             }
-                        }
-                    );
-                    res.locals.items = item;
-                    res.locals.processed = true;
-                    res.status(201);
-                    next();
+                        );
+                    }
+                    if( noError ) {
+                        fs.rename(req.files.taskTextFile.path,
+                            `files/tasks/text_${item._id}.pdf`,
+                            function (err) {
+                                if (err) {
+                                    next(err);
+                                    noError = false;
+                                }
+                            }
+                        );
+                    }
+
+                    if( noError ) {
+                        res.locals.items = item;
+                        res.locals.processed = true;
+                        res.status(201);
+                        next();
+                    }
                 }
             });
         },
@@ -422,40 +450,58 @@ const DatabaseService = {
                     next(err);
                 } else if(item) {
                     if(req.files) {
+                        let noError = true;
                         if (req.files.code !== undefined) {
                             fs.rename(req.files.code.path,
-                                `files/tasks/${item._id}.js`,
+                                `files/tasks/code_${item._id}.js`,
                                 function (err) {
                                     if (err) {
                                         next(err);
+                                        noError = false;
                                     }
                                 }
                             );
                         }
-                        if (req.files.unittestFile !== undefined) {
+                        if (noError && req.files.unittestFile !== undefined) {
                             fs.rename(req.files.unittestFile.path,
                                 `files/unittests/test_${item._id}.js`,
                                 function (err) {
                                     if (err) {
                                         next(err);
+                                        noError = false;
                                     }
                                 }
                             );
                         }
-                        if (req.files.methodsFile !== undefined) {
+                        if (noError && req.files.methodsFile !== undefined) {
                             fs.rename(req.files.methodsFile.path,
                                 `files/unittest/methods_${item._id}.js`,
                                 function (err) {
                                     if (err) {
                                         next(err);
+                                        noError = false;
                                     }
                                 }
                             );
                         }
-                        res.status(200);
-                        res.locals.items = item;
-                        res.locals.processed = true;
-                        next();
+                        if (noError && req.files.taskTextFile !== undefined) {
+                            fs.rename(req.files.taskTextFile.path,
+                                `files/tasks/text_${item._id}.pdf`,
+                                function (err) {
+                                    if (err) {
+                                        next(err);
+                                        noError = false;
+                                    }
+                                }
+                            );
+                        }
+                        if(noError) {
+                            res.status(200);
+                            res.locals.items = item;
+                            res.locals.processed = true;
+                            next();
+                        }
+
                     } else {
                         res.status(200);
                         res.locals.items = item;

@@ -37,10 +37,34 @@ tasks.route('/:id')
         }
     });
 
-tasks.route('/:id/download')
+tasks.route('/:id/textdownload')
     .get((req,res,next) => {
-        if(fs.existsSync(`./files/tasks/${req.params.id}.js`)) {
-            res.download(`./files/tasks/${req.params.id}.js`, `${req.params.id}.js`, function(err){
+        if(fs.existsSync(`./files/tasks/text_${req.params.id}.js`)) {
+            res.download(`./files/tasks/text_${req.params.id}.js`, `text_${req.params.id}.js`, function(err){
+                if (err) {
+                    next(err);
+                }
+            });
+        } else {
+            res.status(204);
+            res.locals.processed = true;
+            next();
+        }
+    })
+    .all(function (req, res, next) {
+        if (res.locals.processed) {
+            next();
+        } else {
+            let err = new Error('this method is not allowed at ' + req.originalUrl);
+            err.status = 405;
+            next(err);
+        }
+    });
+
+tasks.route('/:id/codedownload')
+    .get((req,res,next) => {
+        if(fs.existsSync(`./files/tasks/code_${req.params.id}.js`)) {
+            res.download(`./files/tasks/code_${req.params.id}.js`, `code_${req.params.id}.js`, function(err){
                 if (err) {
                     next(err);
                 }
