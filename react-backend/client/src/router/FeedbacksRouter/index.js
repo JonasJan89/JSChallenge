@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import FeedbackView from "../../components/FeedbackView/index";
 
-export default class TasksRouter extends Component {
+export default class FeedbackRouter extends Component {
     render() {
         return (
             <Switch>

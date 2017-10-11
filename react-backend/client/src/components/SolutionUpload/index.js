@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
 import AssessorView from '../AssessorView';
 
 export default class SolutionUpload extends Component {
@@ -83,7 +83,7 @@ export default class SolutionUpload extends Component {
         return(
             <div className="solution-upload">
                 <form ref="solutionUpload" onSubmit={this.handleSubmit}>
-                    <p>Solution upload</p>
+                    <legend>Solution upload</legend>
                     <input type="file" onChange={this.handleChange} />
                     {this.state.file !== null &&
                         <button type="submit">Upload</button>
