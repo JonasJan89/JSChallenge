@@ -14,7 +14,6 @@ export default class DynamicFeedbackView extends Component {
     }
 
     render() {
-        console.log(this.state.dynamicFeedback);
         if(this.state.dynamicFeedback.length <= 0) {
             return(
                 <div className="dynamic-feedback-view">

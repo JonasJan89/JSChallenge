@@ -45,6 +45,18 @@ const DatabaseService = {
                             }
                         });
                     } else {
+                        // if(req.files.code.path && req.fields.studentID && req.fields.taskID) {
+                        if(req.files.code.path && req.fields.taskID) {
+                            fs.rename(req.files.code.path,
+                                // `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
+                                `files/studentsCode/${req.fields.taskID}.js`,
+                                function (err) {
+                                    if (err) {
+                                        next(err);
+                                    }
+                                }
+                            );
+                        }
                         res.status(200);
                         res.locals.items = item;
                         res.locals.processed = true;
@@ -55,10 +67,22 @@ const DatabaseService = {
         },
 
         updateById: (req,res,next) => {
-            SolutionModel.findByIdAndUpdate(req.params.id, req.fields, {new: true}, function (err, item) {
+            SolutionModel.findByIdAndUpdate(req.params.solutionID, req.fields, {new: true}, function (err, item) {
                 if (err) {
                     next(err);
                 } else if(item) {
+                    // if(req.files.code.path && req.fields.studentID && req.fields.taskID) {
+                    if(req.files.code.path) {
+                        fs.rename(req.files.code.path,
+                            // `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
+                            `files/studentsCode/${item.taskID}.js`,
+                            function (err) {
+                                if (err) {
+                                    next(err);
+                                }
+                            }
+                        );
+                    }
                     res.status(200);
                     res.locals.items = item;
                     res.locals.processed = true;

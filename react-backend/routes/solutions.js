@@ -18,18 +18,6 @@ solutions.route('/')
             next(err);
         }
         db.solutions.saveOne(req, res, next);
-        // if(req.files.code.path && req.fields.studentID && req.fields.taskID) {
-        if(req.files.code.path && req.fields.taskID) {
-            fs.rename(req.files.code.path,
-                // `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
-                `files/studentsCode/${req.fields.taskID}.js`,
-                function (err) {
-                    if (err) {
-                        next(err);
-                    }
-                }
-            );
-        }
     })
     .all(function (req, res, next) {
         if (res.locals.processed) {
@@ -45,25 +33,13 @@ solutions.route('/:solutionID')
     .get((req, res, next) => {
         db.solutions.getById( req, res, next );
     })
-    .post(formidable({uploadDir: './tmp'}),(req, res, next) => {
+    .put(formidable({uploadDir: './tmp'}),(req, res, next) => {
         if(!req.files) {
             let err = new Error('no file attached');
             err.status = 400; //ToDo welcher statuscode?
             next(err);
         }
         db.solutions.updateById(req, res, next);
-        // if(req.files.code.path && req.fields.studentID && req.fields.taskID) {
-        if(req.files.code.path && req.fields.taskID) {
-            fs.rename(req.files.code.path,
-                // `files/studentsCode/${req.fields.studentID}_${req.fields.taskID}.js`,
-                `files/studentsCode/${req.fields.taskID}.js`,
-                function (err) {
-                    if (err) {
-                        next(err);
-                    }
-                }
-            );
-        }
     })
     .all(function (req, res, next) {
         if (res.locals.processed) {

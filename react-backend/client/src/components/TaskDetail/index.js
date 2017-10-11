@@ -25,7 +25,6 @@ export default class TaskDetail extends Component {
                 if(res.status === 204){
                     alert("Sorry, das File wurde nicht gefunden.");
                 } else {
-                    console.log(res);
                     fileDownload(res.data, `${this.state.task.title}.js`);
                 }
             })

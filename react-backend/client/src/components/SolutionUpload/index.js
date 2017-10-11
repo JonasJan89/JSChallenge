@@ -8,10 +8,18 @@ export default class SolutionUpload extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            taskID: props.taskID,
+            taskID: props.taskID || null,
+            solutionID: props.solutionID || null,
             file: null,
             solution: null,
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            solutionID: nextProps.solutionID || null,
+            taskID: nextProps.taskID || null,
+        });
     }
 
     handleChange = (e) => {
@@ -26,29 +34,50 @@ export default class SolutionUpload extends Component {
     createFormData = () => {
         const formData = new FormData();
         formData.append('code', this.state.file);
-
         //ToDo user registrieren und nicht mehr hard coden
         // formData.append('studentID', 123);
-
-        formData.append('taskID', this.state.taskID);
+        if(this.state.taskID) {
+            formData.append('taskID', this.state.taskID);
+        }
         return formData;
     };
 
     uploadData = (formData) => {
-        axios.post('/solutions',
-            formData,
-            {headers: {
-                'content-type': 'multipart/form-data'
-            }})
-            .then((res)=>{
-                this.setState({
-                    solution: res.data,
-                    file: null,
-                });
-                ReactDOM.findDOMNode(this.refs.solutionUpload).reset();
-                alert('Solution uploaded!');
-            })
-            .catch( err => alert(err));
+        let path =  '/solutions';
+        if (this.state.solutionID) {
+            path += `/${this.state.solutionID}`;
+            axios.put(path,
+                formData,
+                {headers: {
+                    'content-type': 'multipart/form-data'
+                }})
+                .then((res)=>{
+                console.log(res.data);
+                    this.setState({
+                        solution: res.data,
+                        file: null,
+                    });
+                    ReactDOM.findDOMNode(this.refs.solutionUpload).reset();
+                    alert('Solution uploaded!');
+                })
+                .catch( err => alert(err));
+        } else {
+            axios.post(path,
+                formData,
+                {headers: {
+                    'content-type': 'multipart/form-data'
+                }})
+                .then((res)=>{
+                    this.setState({
+                        solution: res.data,
+                        file: null,
+                    });
+                    ReactDOM.findDOMNode(this.refs.solutionUpload).reset();
+                    alert('Solution uploaded!');
+                })
+                .catch( err => alert(err));
+        }
+
     };
 
     render() {
