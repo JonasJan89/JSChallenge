@@ -7,7 +7,7 @@ export default class LecturerRouter extends Component {
     render() {
         return (
             <Switch>
-                <Route path='/lecturer/' component={LecturerView}/>
+                <Route path='/lecturer' component={LecturerView}/>
             </Switch>
         );
     }

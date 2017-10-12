@@ -9,7 +9,7 @@ const FeedbackSchema = new Schema({
     },
     staticAutomaticFeedback: {
         type: Array,
-        required: [true, 'staticAutomaticFeedback is required']
+        //required: [true, 'staticAutomaticFeedback is required']
     },
     dynamicAutomaticFeedback: {
         type: Array,

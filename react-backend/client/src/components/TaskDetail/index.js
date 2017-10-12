@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fileDownload from 'js-file-download';
+import jsFileDownload from 'js-file-download';
 import axios from 'axios';
 
 //components
@@ -19,13 +19,13 @@ export default class TaskDetail extends Component {
             .catch(err => alert(err));
     }
 
-    handleTaskDownload = (event) => {
-        axios.get(`/tasks/${this.state.task._id}/download`)
+    handleCodeDownload = (event) => {
+        axios.get(`/tasks/${this.state.task._id}/codedownload`)
             .then(res => {
                 if(res.status === 204){
                     alert("Sorry, das File wurde nicht gefunden.");
                 } else {
-                    fileDownload(res.data, `${this.state.task.title}.js`);
+                    jsFileDownload(res.data, `${this.state.task.title}.js`);
                 }
             })
             .catch(err => alert(err));
@@ -39,10 +39,14 @@ export default class TaskDetail extends Component {
         return (
             <div className="task-detail">
                 <h4 className="task-detail__title" >{this.state.task.title}</h4>
-                <p className="task-detail__text" >{this.state.task.taskText}</p>
+                <a href={`http://localhost:3001/tasks/${this.state.task._id}/textdownload`} download>
+                    <button className="task-detail__download-button">
+                        {this.state.task.title} text download
+                    </button>
+                </a>
                 {this.state.task.withFile &&
-                <button onClick={this.handleTaskDownload} className="task-detail__download-button">
-                    {this.state.task.title} Codedownload
+                <button onClick={this.handleCodeDownload} className="task-detail__download-button">
+                    {this.state.task.title} code download
                 </button>
                 }
                 <SolutionUpload taskID={this.state.task._id} />

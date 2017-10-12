@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/JSChallenge');
 const fs = require('fs');
 
-
 const FeedbackModel = require('../models/feedback');
 const SolutionModel = require('../models/solution');
 const TaskModel = require('../models/task');
@@ -255,6 +254,7 @@ const DatabaseService = {
     },
 
     feedback: {
+
         saveOne: (feedback, res, next) => {
             FeedbackModel.findOneAndUpdate({'solutionID': `${feedback.solutionID}`}, feedback, { new: true }, function(err, item){
                 if (err) {
@@ -354,6 +354,24 @@ const DatabaseService = {
             });
         },
 
+        getTitleForDownload: (req, res, next) => {
+            TaskModel.findById(req.params.id, function(err, item) {
+                if(item) {
+                    if (fs.existsSync(`./files/tasks/text_${req.params.id}.pdf`)) {
+                        res.download(`./files/tasks/text_${req.params.id}.pdf`, `${item.title}.pdf`, function (err) {
+                            if (err) {
+                                next(err);
+                            }
+                        });
+                    } else {
+                        res.status(204);
+                        res.locals.processed = true;
+                        next();
+                    }
+                }
+            });
+        },
+
         saveOne: (req, res, next) => {
             if(!req.files.unittestFile) {
                 let error = new Error('Missing unittest JavaScript file!');
@@ -425,7 +443,6 @@ const DatabaseService = {
                             }
                         );
                     }
-
                     if( noError ) {
                         res.locals.items = item;
                         res.locals.processed = true;
