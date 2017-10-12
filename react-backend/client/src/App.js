@@ -7,6 +7,7 @@ import TasksRouter from './router/TasksRouter';
 import FeedbacksRouter from './router/FeedbacksRouter';
 import LecturerRouter from "./router/LecturerRouter";
 import TaskCreate from "./components/TaskCreate";
+import TaskEdit from "./components/TaskEdit";
 
 //ToDo Header, home, lecturer!
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
                     <Route path='/feedbacks' component={FeedbacksRouter}/>
                     <Route path='/lecturer' component={LecturerRouter}/>
                     <Route path='/createATask' component={TaskCreate}/>
+                    <Route path='/editTask/:id' component={TaskEdit}/>
                 </Switch>
             </div>
         );

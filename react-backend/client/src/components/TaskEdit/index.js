@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-export default class TaskCreate extends Component {
-
+export default class TaskEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: null,
+            taskId: props.match.params.id,
         };
-    };
+    }
 
-    handleTitleChange = (e) => {
-        this.setState({ title: e.target.value });
-    };
+    componentDidMount() {
+        axios.get(`/tasks/${this.state.taskId}`)
+            .then(task => this.setState({ task: task.data }))
+            .catch(err => alert(err));
+    }
+
     handleTextChange = (e) => {
         this.setState({ textFile: e.target.files[0] });
     };
@@ -34,19 +36,37 @@ export default class TaskCreate extends Component {
 
     createFormData = () => {
         const formData = new FormData();
+        let hasNewData = false;
         if(this.state.code) {
             formData.append('code', this.state.code);
             formData.append('withCodeFile', true);
+            hasNewData = true;
         }
-        formData.append('title', this.state.title);
-        formData.append('taskTextFile', this.state.textFile);
-        formData.append('unittestFile', this.state.unittestFile);
-        formData.append('methodsFile', this.state.methodsFile);
-        return formData;
+        if(this.state.textFile) {
+            formData.append('taskTextFile', this.state.textFile);
+            hasNewData = true;
+        }
+        if(this.state.unittestFile) {
+            formData.append('unittestFile', this.state.unittestFile);
+            hasNewData = true;
+        }
+        if(this.state.methodsFile){
+            formData.append('methodsFile', this.state.methodsFile);
+            hasNewData = true;
+        }
+
+        if(hasNewData) {
+            formData.append('id', this.state.taskId);
+            return formData;
+        }
+        return null;
     };
 
     uploadData = (formData) => {
-        axios.post('/tasks',
+        if(formData === null) {
+            return;
+        }
+        axios.put(`/tasks/${this.state.taskId}`,
             formData,
             {
                 headers: {
@@ -57,34 +77,33 @@ export default class TaskCreate extends Component {
                 this.setState({
                     task: res.data,
                 });
-                ReactDOM.findDOMNode(this.refs.createATask).reset();
+                ReactDOM.findDOMNode(this.refs.taskEdit).reset();
                 alert('Task uploaded!');
                 console.log(this.state);
             })
             .catch(err => alert(err));
-
     };
 
     render() {
+        if(!this.state.task) {
+            return null;
+        }
         return (
-            <div className="create-task">
-                <form ref="createATask" onSubmit={this.handleSubmit}>
-                    <legend>Create a task</legend>
-                    <p>
-                        <label htmlFor="title">Task Title</label>
-                        <input id="title" type="text" onChange={this.handleTitleChange} required/>
-                    </p>
+            <div className="task-edit">
+                <h4 className="task-edit__title" >{this.state.task.title}</h4>
+                <form ref="taskEdit" onSubmit={this.handleSubmit}>
+                    <legend>Edit {this.state.task.title}</legend>
                     <p>
                         <label htmlFor="taskText">Task Text</label>
-                        <input id="taskText" type="file" onChange={this.handleTextChange} required/>
+                        <input id="taskText" type="file" onChange={this.handleTextChange} />
                     </p>
                     <p>
                         <label htmlFor="unittestFile">Unittest File</label>
-                        <input id="unittestFile" type="file" onChange={this.handleUnittestChange} required/>
+                        <input id="unittestFile" type="file" onChange={this.handleUnittestChange} />
                     </p>
                     <p>
                         <label htmlFor="methodsFile">Methods File</label>
-                        <input id="methodsFile" type="file" onChange={this.handleMethodsChange} required/>
+                        <input id="methodsFile" type="file" onChange={this.handleMethodsChange} />
                     </p>
                     <p>
                         <label htmlFor="code">Code File</label>
@@ -95,5 +114,5 @@ export default class TaskCreate extends Component {
                 </form>
             </div>
         );
-    };
+    }
 }

@@ -1,6 +1,5 @@
 const solutions = require('express').Router();
 const db = require('../services/DatabaseService');
-const fs = require('fs');
 const formidable = require('express-formidable');
 
 //ToDo: Why??

@@ -8,6 +8,7 @@ export default class TasksView extends Component {
         super(props);
         this.state = {
             tasks: [],
+            onLecturersView: props.onLecturersView || false,
         };
     }
 
@@ -17,19 +18,26 @@ export default class TasksView extends Component {
             .catch(err => alert(err));
     }
 
+    getPathName = () => {
+        if(this.state.onLecturersView) {
+            return '/editTask/'
+        }
+        return '/tasks/';
+    };
+
     render() {
         if(!this.state.tasks) {
             return null;
         }
         return (
             <div className="task-view">
-                <h3>Hier sind die tasks!</h3>
+                <h4>Here are all available task. Choose one!</h4>
                 <ul>
                 {this.state.tasks.map(task => {
                    return (
                        <li key={task._id}>
                            <Link  to={{
-                               pathname: `/tasks/${task._id}`,
+                               pathname: `${this.getPathName()}${task._id}`,
                            }}>
                                {task.title}
                            </Link>

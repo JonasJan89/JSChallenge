@@ -25,7 +25,7 @@ export default class TaskDetail extends Component {
                 if(res.status === 204){
                     alert("Sorry, das File wurde nicht gefunden.");
                 } else {
-                    jsFileDownload(res.data, `${this.state.task.title}.js`);
+                    jsFileDownload(res.data, `${this.state.task.title} codebase.js`);
                 }
             })
             .catch(err => alert(err));
@@ -44,7 +44,7 @@ export default class TaskDetail extends Component {
                         {this.state.task.title} text download
                     </button>
                 </a>
-                {this.state.task.withFile &&
+                {this.state.task.withCodeFile &&
                 <button onClick={this.handleCodeDownload} className="task-detail__download-button">
                     {this.state.task.title} code download
                 </button>
