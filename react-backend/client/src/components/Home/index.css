@@ -1,0 +1,16 @@
+.home__title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.home__link-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.home__link + .home__link {
+    margin-left: 30px;
+}

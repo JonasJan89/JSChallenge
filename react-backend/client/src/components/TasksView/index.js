@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import './index.css';
 
 export default class TasksView extends Component {
     constructor(props) {
@@ -27,24 +27,32 @@ export default class TasksView extends Component {
 
     render() {
         if(!this.state.tasks) {
-            return null;
+            return(
+                <div className="task-view">
+                    <div className="container">
+                        <div className="task-view__wrapper white-box">
+                            <h5>no tasks available</h5>
+                        </div>
+                    </div>
+                </div>
+            );
         }
         return (
             <div className="task-view">
-                <h4>Here are all available task. Choose one!</h4>
-                <ul>
-                {this.state.tasks.map(task => {
-                   return (
-                       <li key={task._id}>
-                           <Link  to={{
-                               pathname: `${this.getPathName()}${task._id}`,
-                           }}>
-                               {task.title}
-                           </Link>
-                       </li>
-                   );
-                })}
-                </ul>
+                <div className="container">
+                    <div className="task-view__wrapper white-box">
+                        <h5>Here are all available task. Choose one!</h5>
+                        {this.state.tasks.map(task => {
+                            return (
+                                <Link key={task._id}  to={{
+                                    pathname: `${this.getPathName()}${task._id}`,
+                                }}>
+                                    {task.title}
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         );
     }

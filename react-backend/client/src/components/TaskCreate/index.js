@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import './index.css';
 
 export default class TaskCreate extends Component {
 
@@ -68,31 +69,35 @@ export default class TaskCreate extends Component {
     render() {
         return (
             <div className="create-task">
-                <form ref="createATask" onSubmit={this.handleSubmit}>
-                    <legend>Create a task</legend>
-                    <p>
-                        <label htmlFor="title">Task Title</label>
-                        <input id="title" type="text" onChange={this.handleTitleChange} required/>
-                    </p>
-                    <p>
-                        <label htmlFor="taskText">Task Text</label>
-                        <input id="taskText" type="file" onChange={this.handleTextChange} required/>
-                    </p>
-                    <p>
-                        <label htmlFor="unittestFile">Unittest File</label>
-                        <input id="unittestFile" type="file" onChange={this.handleUnittestChange} required/>
-                    </p>
-                    <p>
-                        <label htmlFor="methodsFile">Methods File</label>
-                        <input id="methodsFile" type="file" onChange={this.handleMethodsChange} required/>
-                    </p>
-                    <p>
-                        <label htmlFor="code">Code File</label>
-                        <input id="code" type="file" onChange={this.handleCodeChange} />
-                    </p>
+                <div className="container">
+                    <div className="create-task white-box">
+                        <form ref="createATask" onSubmit={this.handleSubmit}>
+                            <legend className="create-task__legend">Create a task</legend>
+                            <p>
+                                <label htmlFor="title">Task Title</label>
+                                <input id="title" type="text" onChange={this.handleTitleChange} required/>
+                            </p>
+                            <p>
+                                <label htmlFor="taskText">Task Text</label>
+                                <input id="taskText" type="file" onChange={this.handleTextChange} required/>
+                            </p>
+                            <p>
+                                <label htmlFor="unittestFile">Unittest File</label>
+                                <input id="unittestFile" type="file" onChange={this.handleUnittestChange} required/>
+                            </p>
+                            <p>
+                                <label htmlFor="methodsFile">Methods File</label>
+                                <input id="methodsFile" type="file" onChange={this.handleMethodsChange} required/>
+                            </p>
+                            <p>
+                                <label htmlFor="code">Code File</label>
+                                <input id="code" type="file" onChange={this.handleCodeChange} />
+                            </p>
 
-                    <button type="submit">Upload</button>
-                </form>
+                            <button type="submit">Upload</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         );
     };
