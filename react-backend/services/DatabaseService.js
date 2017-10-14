@@ -156,7 +156,7 @@ const DatabaseService = {
             });
         },
 
-        getByIdWR: (req, res, next, assessSolution) => {
+        getByIdWR: (req, res, next, assessorHandler) => {
             SolutionModel.findById(req.params.solutionID, function(err, item) {
                 if(err) {
                     next(err);
@@ -165,7 +165,7 @@ const DatabaseService = {
                     error.status = 404;
                     next(error);
                 } else {
-                    assessSolution(req, res, next, item);
+                    assessorHandler(req, res, next, item);
                 }
             });
         }
