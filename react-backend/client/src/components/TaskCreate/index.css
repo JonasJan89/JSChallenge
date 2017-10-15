@@ -1,3 +1,16 @@
+
+
 .create-task__legend {
     font-size: 1.25rem;
+    margin-bottom: 15px;
+}
+
+.create-task__form-item {
+    display: flex;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+.create-task__input-label {
+    width: 25%;
 }

@@ -12,8 +12,12 @@ export default class LecturerView extends Component {
             <div className="lecturer-view">
                 <div className="container">
                     <div className="lecturer-view__wrapper white-box">
-                        <h5>Welcome to lecturers view</h5>
-                        <Link to="/createATask">create a task</Link>
+                        <h4>Welcome to lecturers view</h4>
+                        <Link to="/createATask">
+                            <button className="btn btn-secondary">
+                                create a task
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <TasksView onLecturersView={true} />

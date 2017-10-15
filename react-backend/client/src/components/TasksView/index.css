@@ -1,4 +1,18 @@
-.task-view__wrapper {
+.tasks-view__wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tasks-view__tasks-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tasks-view__link-wrapper {
+    width: 25%;
     display: flex;
     justify-content: center;
 }

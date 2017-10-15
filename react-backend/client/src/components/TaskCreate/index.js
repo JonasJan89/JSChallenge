@@ -73,28 +73,30 @@ export default class TaskCreate extends Component {
                     <div className="create-task white-box">
                         <form ref="createATask" onSubmit={this.handleSubmit}>
                             <legend className="create-task__legend">Create a task</legend>
-                            <p>
-                                <label htmlFor="title">Task Title</label>
-                                <input id="title" type="text" onChange={this.handleTitleChange} required/>
+                            <p className="create-task__form-item">
+                                <label className="create-task__input-label" htmlFor="title">Task Title*</label>
+                                <input className="create-task__input" id="title" type="text" onChange={this.handleTitleChange} required/>
                             </p>
-                            <p>
-                                <label htmlFor="taskText">Task Text</label>
-                                <input id="taskText" type="file" onChange={this.handleTextChange} required/>
+                            <p className="create-task__form-item">
+                                <label className="create-task__input-label" htmlFor="taskText">Task Text*</label>
+                                <input className="create-task__input" id="taskText" type="file" onChange={this.handleTextChange} required/>
                             </p>
-                            <p>
-                                <label htmlFor="unittestFile">Unittest File</label>
-                                <input id="unittestFile" type="file" onChange={this.handleUnittestChange} required/>
+                            <p className="create-task__form-item">
+                                <label className="create-task__input-label" htmlFor="unittestFile">Unittest File*</label>
+                                <input className="create-task__input" id="unittestFile" type="file" onChange={this.handleUnittestChange} required/>
                             </p>
-                            <p>
-                                <label htmlFor="methodsFile">Methods File</label>
-                                <input id="methodsFile" type="file" onChange={this.handleMethodsChange} required/>
+                            <p className="create-task__form-item">
+                                <label className="create-task__input-label" htmlFor="methodsFile">Methods File*</label>
+                                <input className="create-task__input" id="methodsFile" type="file" onChange={this.handleMethodsChange} required/>
                             </p>
-                            <p>
-                                <label htmlFor="code">Code File</label>
-                                <input id="code" type="file" onChange={this.handleCodeChange} />
+                            <p className="create-task__form-item">
+                                <label className="create-task__input-label" htmlFor="code">Code File</label>
+                                <input className="create-task__input" id="code" type="file" onChange={this.handleCodeChange} />
                             </p>
-
-                            <button type="submit">Upload</button>
+                            <p className="create-task__form-item">
+                                *required fields
+                            </p>
+                            <button className="btn btn-submit" type="submit">Upload</button>
                         </form>
                     </div>
                 </div>

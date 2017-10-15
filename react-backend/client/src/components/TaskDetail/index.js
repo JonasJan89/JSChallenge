@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import jsFileDownload from 'js-file-download';
 import axios from 'axios';
+import './index.css';
 
 //components
 import SolutionUpload from '../SolutionUpload';
@@ -38,18 +39,28 @@ export default class TaskDetail extends Component {
         }
         return (
             <div className="task-detail">
-                <h4 className="task-detail__title" >{this.state.task.title}</h4>
-                <a href={`http://localhost:3001/tasks/${this.state.task._id}/textdownload`} download>
-                    <button className="task-detail__download-button">
-                        {this.state.task.title} text download
-                    </button>
-                </a>
-                {this.state.task.withCodeFile &&
-                <button onClick={this.handleCodeDownload} className="task-detail__download-button">
-                    {this.state.task.title} code download
-                </button>
-                }
-                <SolutionUpload taskID={this.state.task._id} />
+                <div className="container">
+                    <div className="task-detail__wrapper white-box">
+                        <h4 className="task-detail__title" >This is {this.state.task.title}</h4>
+                        <div className="task-detail__download-wrapper">
+                            <p className="task-detail__download-label">You can download the task-text here:</p>
+                            <a href={`http://localhost:3001/tasks/${this.state.task._id}/textdownload`} download>
+                                <button className="task-detail__download-button btn btn-secondary">
+                                    task-text
+                                </button>
+                            </a>
+                        </div>
+                        {this.state.task.withCodeFile &&
+                        <div className="task-detail__download-wrapper">
+                            <p className="task-detail__download-label">You can download the code base here:</p>
+                            <button onClick={this.handleCodeDownload} className="task-detail__download-button btn btn-secondary">
+                                code base
+                            </button>
+                        </div>
+                        }
+                    </div>
+                    <SolutionUpload taskID={this.state.task._id} />
+                </div>
             </div>
         );
     }

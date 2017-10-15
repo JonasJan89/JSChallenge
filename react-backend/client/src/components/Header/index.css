@@ -4,15 +4,24 @@
 
 .header__wrapper {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .header__title-wrapper {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .header__title {
     margin: 0;
+}
+
+.header__links-wrapper {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .header__link + .header__link {

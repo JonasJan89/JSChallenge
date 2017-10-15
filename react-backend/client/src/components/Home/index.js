@@ -10,7 +10,7 @@ export default class Home extends Component {
               <div className="container">
                   <div className="home__wrapper white-box">
                       <div className="home__title">
-                          <h5>Welcome to the JSChallenge prototype! Please choose an area:</h5>
+                          <h4>Welcome to the JSChallenge prototype! Please choose an area:</h4>
                       </div>
                       <div className="home__link-wrapper">
                           <Link className="home__link" to={`/lecturer`}>

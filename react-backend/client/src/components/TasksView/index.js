@@ -28,29 +28,39 @@ export default class TasksView extends Component {
     render() {
         if(!this.state.tasks) {
             return(
-                <div className="task-view">
+                <div className="tasks-view">
                     <div className="container">
-                        <div className="task-view__wrapper white-box">
-                            <h5>no tasks available</h5>
+                        <div className="tasks-view__wrapper white-box">
+                            <h4>Sorry, there are no tasks available.</h4>
                         </div>
                     </div>
                 </div>
             );
         }
         return (
-            <div className="task-view">
+            <div className="tasks-view">
                 <div className="container">
-                    <div className="task-view__wrapper white-box">
-                        <h5>Here are all available task. Choose one!</h5>
-                        {this.state.tasks.map(task => {
-                            return (
-                                <Link key={task._id}  to={{
-                                    pathname: `${this.getPathName()}${task._id}`,
-                                }}>
-                                    {task.title}
-                                </Link>
-                            );
-                        })}
+                    <div className="tasks-view__wrapper white-box">
+                        {this.props.onLecturersView ? (
+                        <h4>Here are all available tasks. Please choose one to edit it.</h4>
+                        ):(
+                        <h4>Here are all available tasks. Please choose one to solve it.</h4>
+                        )}
+                        <div className="tasks-view__tasks-wrapper">
+                            {this.state.tasks.map(task => {
+                                return (
+                                    <div className="tasks-view__link-wrapper">
+                                        <Link key={task._id}  to={{
+                                            pathname: `${this.getPathName()}${task._id}`,
+                                        }}>
+                                            <button className="btn btn-secondary">
+                                                {task.title}
+                                            </button>
+                                        </Link>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>

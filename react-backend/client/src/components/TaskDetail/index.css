@@ -1,0 +1,13 @@
+.task-detail__download-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.task-detail__download-label {
+    width: 300px;
+}
+
+.task-detail__title {
+    margin-bottom: 15px;
+}
