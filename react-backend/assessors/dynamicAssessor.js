@@ -9,6 +9,9 @@ const dynamicAssessor = (solution, methods) => {
     let mocha = new Mocha();
     mocha.addFile(`./files/testfiles/test_${solution.taskID}.js`);
 
+    //ToDo muss gesetzt werden, damit nicht immer wieder neue Listener erschaffen werden.
+    process.setMaxListeners(3);
+
     let p = new Promise(resolve => {
         let testResult = [];
         mocha.reporter('list').run()

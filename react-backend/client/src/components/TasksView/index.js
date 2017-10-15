@@ -31,7 +31,7 @@ export default class TasksView extends Component {
                 <div className="tasks-view">
                     <div className="container">
                         <div className="tasks-view__wrapper white-box">
-                            <h4>Sorry, there are no tasks available.</h4>
+                            <h4>Es sind derzeit leider keine Aufgaben verfügbar.</h4>
                         </div>
                     </div>
                 </div>

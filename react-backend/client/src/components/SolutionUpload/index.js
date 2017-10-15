@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
-import AssessorView from '../AssessorView';
+import { Link } from 'react-router-dom';
 import './index.css';
 
 export default class SolutionUpload extends Component {
@@ -35,8 +35,6 @@ export default class SolutionUpload extends Component {
     createFormData = () => {
         const formData = new FormData();
         formData.append('code', this.state.file);
-        //ToDo user registrieren und nicht mehr hard coden
-        // formData.append('studentID', 123);
         if(this.state.taskID) {
             formData.append('taskID', this.state.taskID);
         }
@@ -58,7 +56,6 @@ export default class SolutionUpload extends Component {
                         file: null,
                     });
                     ReactDOM.findDOMNode(this.refs.solutionUpload).reset();
-                    alert('Lösung erfolgreich hochgeladen!');
                 })
                 .catch( err => alert(err));
         } else {
@@ -73,14 +70,20 @@ export default class SolutionUpload extends Component {
                         file: null,
                     });
                     ReactDOM.findDOMNode(this.refs.solutionUpload).reset();
-                    alert('Lösung erfolgreich hochgeladen!');
                 })
                 .catch( err => alert(err));
         }
 
     };
 
+    toggleSolution= () => {
+        this.setState({
+            solution: null,
+        });
+    };
+
     render() {
+        console.log(this.state);
         return(
             <div className="solution-upload">
                 <div className="container">
@@ -104,7 +107,9 @@ export default class SolutionUpload extends Component {
                             }
                         </form>
                         {this.state.solution &&
-                            <AssessorView solutionID={this.state.solution._id} />
+                            <Link onClick={this.toggleSolution} to={`/feedbacks/${this.state.solution._id}`}>
+                                <button className="btn btn-success">Aufgabe testen lassen</button>
+                            </Link>
                         }
                     </div>
                 </div>

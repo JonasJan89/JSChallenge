@@ -15,6 +15,7 @@ export default class DynamicFeedbackView extends Component {
     }
 
     render() {
+        let allPassed = true;
         if(this.state.dynamicFeedback.length <= 0) {
             return(
                 <div className="dynamic-feedback-view">
@@ -28,12 +29,16 @@ export default class DynamicFeedbackView extends Component {
                 {this.state.dynamicFeedback.map((feedback, index) => {
                     return (
                         <div key={index}>
+                            {feedback.state === 'failed' ? allPassed = false : null}
                             <p className={feedback.state === 'passed' ? "dynamic-feedback-view__passed" : "dynamic-feedback-view__failed"}>
                                 {feedback.title} - {feedback.state}
-                                </p>
+                            </p>
                         </div>
                     );
                 })}
+                {allPassed &&
+                <h4>Alle Tests sind bestanden. Super!</h4>
+                }
             </div>
         );
     }
