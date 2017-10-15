@@ -42,9 +42,15 @@ export default class TasksView extends Component {
                 <div className="container">
                     <div className="tasks-view__wrapper white-box">
                         {this.props.onLecturersView ? (
-                        <h4>Here are all available tasks. Please choose one to edit it.</h4>
+                            <div className="tasks-view__description-wrapper">
+                                <h4>Hier sind alle bereits erstellten Aufgaben aufgelistet.</h4>
+                                <p>Wähle eine Aufgabe um sie anzupassen.</p>
+                            </div>
                         ):(
-                        <h4>Here are all available tasks. Please choose one to solve it.</h4>
+                            <div className="tasks-view__description-wrapper">
+                                <h4>Willkommen im Studentenbereich!</h4>
+                                <p>Wähle eine Aufgabe aus um sie zu bearbeiten.</p>
+                            </div>
                         )}
                         <div className="tasks-view__tasks-wrapper">
                             {this.state.tasks.map(task => {

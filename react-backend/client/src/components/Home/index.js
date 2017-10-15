@@ -10,14 +10,15 @@ export default class Home extends Component {
               <div className="container">
                   <div className="home__wrapper white-box">
                       <div className="home__title">
-                          <h4>Welcome to the JSChallenge prototype! Please choose an area:</h4>
+                          <h4>Willkommen im JSChallenge Prototyp!</h4>
+                          <h5>Bitte wähle einen der beiden Bereiche aus:</h5>
                       </div>
                       <div className="home__link-wrapper">
                           <Link className="home__link" to={`/lecturer`}>
-                              <button className="btn btn-secondary">I am a lecturer</button>
+                              <button className="btn btn-secondary">Dozentenbereich</button>
                           </Link>
                           <Link className="home__link" to={`/tasks`}>
-                              <button className="btn btn-secondary">I am a student</button>
+                              <button className="btn btn-secondary">Studentenbereich</button>
                           </Link>
                       </div>
                   </div>

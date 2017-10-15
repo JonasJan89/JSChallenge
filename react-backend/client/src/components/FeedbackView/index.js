@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import StaticFeedbackView from '../StaticFeedbackView';
 import DynamicFeedbackView from '../DynamicFeedbackView';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import SolutionUpload from "../SolutionUpload/index";
 
 export default class FeedbackView extends Component {
@@ -43,19 +42,19 @@ export default class FeedbackView extends Component {
     render() {
         return(
             <div className="feedback-view">
-                {this.state.feedback && this.state.feedback.staticFeedback &&
-                    <StaticFeedbackView staticFeedback={this.state.feedback.staticFeedback}/>
-                }
-                {this.state.feedback && this.state.feedback.dynamicFeedback && this.state.feedback.staticFeedback.length <= 0 &&
-                    <DynamicFeedbackView dynamicFeedback={this.state.feedback.dynamicFeedback}/>
-                }
-                <h4>Upload a new solution</h4>
+                <div className="container">
+                    <div className="feedback-view__wrapper white-box">
+                        {this.state.feedback && this.state.feedback.staticFeedback &&
+                        <StaticFeedbackView staticFeedback={this.state.feedback.staticFeedback}/>
+                        }
+                        {this.state.feedback && this.state.feedback.dynamicFeedback && this.state.feedback.staticFeedback.length <= 0 &&
+                        <DynamicFeedbackView dynamicFeedback={this.state.feedback.dynamicFeedback}/>
+                        }
+                    </div>
+                </div>
                 {this.state.solutionID &&
-                    <SolutionUpload solutionID={this.state.solutionID}/>
+                <SolutionUpload onFeedbackView={true} solutionID={this.state.solutionID}/>
                 }
-                <Link  to={`/tasks`}>
-                    <button>back to tasks</button>
-                </Link>
             </div>
         );
     }

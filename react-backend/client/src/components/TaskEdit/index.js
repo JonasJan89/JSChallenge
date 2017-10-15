@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import './index.css';
 
 export default class TaskEdit extends Component {
     constructor(props) {
@@ -78,8 +79,7 @@ export default class TaskEdit extends Component {
                     task: res.data,
                 });
                 ReactDOM.findDOMNode(this.refs.taskEdit).reset();
-                alert('Task uploaded!');
-                console.log(this.state);
+                alert('Aufgabe erfolgreich hochgeladen!');
             })
             .catch(err => alert(err));
     };
@@ -90,28 +90,31 @@ export default class TaskEdit extends Component {
         }
         return (
             <div className="task-edit">
-                <h4 className="task-edit__title" >{this.state.task.title}</h4>
-                <form ref="taskEdit" onSubmit={this.handleSubmit}>
-                    <legend>Edit {this.state.task.title}</legend>
-                    <p>
-                        <label htmlFor="taskText">Task Text</label>
-                        <input id="taskText" type="file" onChange={this.handleTextChange} />
-                    </p>
-                    <p>
-                        <label htmlFor="unittestFile">Unittest File</label>
-                        <input id="unittestFile" type="file" onChange={this.handleUnittestChange} />
-                    </p>
-                    <p>
-                        <label htmlFor="methodsFile">Methods File</label>
-                        <input id="methodsFile" type="file" onChange={this.handleMethodsChange} />
-                    </p>
-                    <p>
-                        <label htmlFor="code">Code File</label>
-                        <input id="code" type="file" onChange={this.handleCodeChange} />
-                    </p>
+                <div className="container">
+                    <div className="task-edit__wrapper white-box">
+                        <form ref="taskEdit" onSubmit={this.handleSubmit}>
+                            <legend className="task-edit__label">Aufgabe {this.state.task.title} anpassen.</legend>
+                            <p className="task-edit__form-item">
+                                <label className="task-edit__input-label" htmlFor="taskText">Aufgabenbeschreibung</label>
+                                <input id="taskText" type="file" onChange={this.handleTextChange} />
+                            </p>
+                            <p className="task-edit__form-item">
+                                <label className="task-edit__input-label" htmlFor="unittestFile">Unittest Datei</label>
+                                <input id="unittestFile" type="file" onChange={this.handleUnittestChange} />
+                            </p>
+                            <p className="task-edit__form-item">
+                                <label className="task-edit__input-label" htmlFor="methodsFile">Methoden Datei</label>
+                                <input id="methodsFile" type="file" onChange={this.handleMethodsChange} />
+                            </p>
+                            <p className="task-edit__form-item">
+                                <label className="task-edit__input-label" htmlFor="code">Code Skelett Datei</label>
+                                <input id="code" type="file" onChange={this.handleCodeChange} />
+                            </p>
 
-                    <button type="submit">Upload</button>
-                </form>
+                            <button className="btn btn-success" type="submit">Upload</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         );
     }

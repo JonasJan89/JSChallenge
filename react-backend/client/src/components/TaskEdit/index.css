@@ -1,14 +1,14 @@
-.create-task__legend {
+.task-edit__legend {
     font-size: 1.25rem;
     margin-bottom: 15px;
 }
 
-.create-task__form-item {
+.task-edit__form-item {
     display: flex;
     justify-content: flex-start;
     width: 550px;
 }
 
-.create-task__input-label {
+.task-edit__input-label {
     width: 200px;
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './index.css';
 
 export default class StaticFeedbackView extends Component {
 
@@ -17,27 +18,30 @@ export default class StaticFeedbackView extends Component {
         if(this.state.staticFeedback.length <= 0) {
             return (
                 <div className="static-feedback-view">
-                    <h4>No static issues in your code found. Great!</h4>
+                    <h4>Es wurden keine statischen Fehler in deiner Lösung entdeckt.</h4>
                 </div>
             );
         }
         return(
             <div className="static-feedback-view">
-                <h4>static issues: </h4>
+                <h4>Es wurden statische Fehler in deiner Lösung entdeckt. </h4>
                 {this.state.staticFeedback.map((feedback, index) => {
                     if (feedback.type && feedback.type === 'missingMethods') {
                         return (
-                            <div key={index}>
-                                <h4>There are some methods missing:</h4>
-                                {feedback.message.map((m,i) => <p key={i}>{m}</p>)}
+                            <div className="static-feedback-view__wrapper white-box" key={index}>
+                                <p>Folgende Methoden fehlen in deiner Lösung:</p>
+                                {feedback.message.map((m,i) => <p className="white-box" key={i}>{m}</p>)}
+                                <p>Lade bitte eine neue Lösung mit den fehlenden Methoden hoch.</p>
                             </div>
                         );
                     }
                     return (
-                        <div key={index}>
+                        <div className="static-feedback-view__wrapper white-box"  key={index}>
                             <p>line {feedback.line}, column {feedback.column}: {feedback.message}</p>
                             <p>source: {feedback.source}</p>
+                            {feedback.ruleId &&
                             <p>ESLint rule: {feedback.ruleId}</p>
+                            }
                         </div>
                     );
                 })}

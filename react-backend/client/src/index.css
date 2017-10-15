@@ -9,10 +9,21 @@ body {
   background-color: white;
   box-shadow: 0 0 0 1px rgba(39,41,43,.05), 0 1px 2px 0 rgba(0,0,0,.05);
   padding: 20px;
+  margin-bottom: 10px;
 }
 
 .btn {
   font-size: 12px;
   padding: 5px;
   cursor: pointer;
+}
+
+.btn-link {
+  font-size: 14px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.btn-disabled {
+  cursor: not-allowed;
 }

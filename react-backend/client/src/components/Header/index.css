@@ -1,5 +1,6 @@
 .header {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+    z-index: 1024;
 }
 
 .header__wrapper {

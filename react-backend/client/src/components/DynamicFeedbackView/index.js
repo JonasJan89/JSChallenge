@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './index.css';
 
 export default class DynamicFeedbackView extends Component {
 
@@ -17,17 +18,19 @@ export default class DynamicFeedbackView extends Component {
         if(this.state.dynamicFeedback.length <= 0) {
             return(
                 <div className="dynamic-feedback-view">
-                    <p>No dynamic issues in your code found. Great!</p>
+                    <p>Es wurden keine dynamischen Probleme in deiner Lösung entdeckt.</p>
                 </div>
             );
         }
         return(
             <div className="dynamic-feedback-view">
-                <h4>Unit test feedback:</h4>
+                <h4>Die Unittests ergaben folgendes Feedback:</h4>
                 {this.state.dynamicFeedback.map((feedback, index) => {
                     return (
                         <div key={index}>
-                            <p>{feedback.title} - {feedback.state}</p>
+                            <p className={feedback.state === 'passed' ? "dynamic-feedback-view__passed" : "dynamic-feedback-view__failed"}>
+                                {feedback.title} - {feedback.state}
+                                </p>
                         </div>
                     );
                 })}

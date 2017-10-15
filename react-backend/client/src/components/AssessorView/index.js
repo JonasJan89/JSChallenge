@@ -7,7 +7,7 @@ export default class AssessorView extends Component {
         return(
             <div className="assessor-view">
                 <Link  to={`/feedbacks/${this.props.solutionID}`}>
-                    <button>assess solution</button>
+                    <button className="btn btn-success">assess solution</button>
                 </Link>
             </div>
         );

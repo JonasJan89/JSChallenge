@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 import AssessorView from '../AssessorView';
+import './index.css';
 
 export default class SolutionUpload extends Component {
 
@@ -57,7 +58,7 @@ export default class SolutionUpload extends Component {
                         file: null,
                     });
                     ReactDOM.findDOMNode(this.refs.solutionUpload).reset();
-                    alert('Solution uploaded!');
+                    alert('Lösung erfolgreich hochgeladen!');
                 })
                 .catch( err => alert(err));
         } else {
@@ -72,7 +73,7 @@ export default class SolutionUpload extends Component {
                         file: null,
                     });
                     ReactDOM.findDOMNode(this.refs.solutionUpload).reset();
-                    alert('Solution uploaded!');
+                    alert('Lösung erfolgreich hochgeladen!');
                 })
                 .catch( err => alert(err));
         }
@@ -82,16 +83,31 @@ export default class SolutionUpload extends Component {
     render() {
         return(
             <div className="solution-upload">
-                <form ref="solutionUpload" onSubmit={this.handleSubmit}>
-                    <legend>Solution upload</legend>
-                    <input type="file" onChange={this.handleChange} />
-                    {this.state.file !== null &&
-                        <button type="submit">Upload</button>
-                    }
-                </form>
-                {this.state.solution &&
-                    <AssessorView solutionID={this.state.solution._id} />
-                }
+                <div className="container">
+                    <div className="solution-upload__wrapper white-box">
+                        <form className="solution-upload__form" ref="solutionUpload" onSubmit={this.handleSubmit}>
+                            {this.props.onFeedbackView ? (
+                                <h4 className="solution-upload__legend">
+                                    Möchtest du eine neue Lösung einreichen?
+                                </h4>
+                            ):(
+                                <h4 className="solution-upload__legend">
+                                    Du hast eine Lösung für die Aufgabe?
+                                </h4>
+                            )}
+                            <p>Dann lade sie hier hoch und lasse sie vom System automatisch testen:</p>
+                            <input className="solution-upload__input" type="file" onChange={this.handleChange} />
+                            {this.state.file !== null &&
+                                <button className=" btn btn-primary" type="submit">
+                                    Lösung hochladen
+                                </button>
+                            }
+                        </form>
+                        {this.state.solution &&
+                            <AssessorView solutionID={this.state.solution._id} />
+                        }
+                    </div>
+                </div>
             </div>
         );
     }

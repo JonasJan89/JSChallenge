@@ -1,16 +1,21 @@
-.task-detail__wrapper {
+.solution-upload__wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.task-detail__download-wrapper {
+.solution-upload__legend {
+    display: flex;
+    justify-content: center;
+}
+
+.solution-upload__form {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.solution-upload__input {
     margin-bottom: 15px;
 }
 
-.task-detail__title {
-    margin-bottom: 15px;
-}

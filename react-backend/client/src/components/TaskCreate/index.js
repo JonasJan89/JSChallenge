@@ -59,8 +59,7 @@ export default class TaskCreate extends Component {
                     task: res.data,
                 });
                 ReactDOM.findDOMNode(this.refs.createATask).reset();
-                alert('Task uploaded!');
-                console.log(this.state);
+                alert('Aufgabe erfolgreich hochgeladen!');
             })
             .catch(err => alert(err));
 
@@ -72,31 +71,35 @@ export default class TaskCreate extends Component {
                 <div className="container">
                     <div className="create-task white-box">
                         <form ref="createATask" onSubmit={this.handleSubmit}>
-                            <legend className="create-task__legend">Create a task</legend>
+                            <legend className="create-task__legend">Erstelle eine Aufgabe</legend>
                             <p className="create-task__form-item">
-                                <label className="create-task__input-label" htmlFor="title">Task Title*</label>
+                                <label className="create-task__input-label" htmlFor="title">Aufgabentitle*</label>
                                 <input className="create-task__input" id="title" type="text" onChange={this.handleTitleChange} required/>
                             </p>
                             <p className="create-task__form-item">
-                                <label className="create-task__input-label" htmlFor="taskText">Task Text*</label>
+                                <label className="create-task__input-label" htmlFor="taskText">Aufgabenbeschreibung*</label>
                                 <input className="create-task__input" id="taskText" type="file" onChange={this.handleTextChange} required/>
                             </p>
                             <p className="create-task__form-item">
-                                <label className="create-task__input-label" htmlFor="unittestFile">Unittest File*</label>
+                                <label className="create-task__input-label" htmlFor="unittestFile">Unittest Datei*</label>
                                 <input className="create-task__input" id="unittestFile" type="file" onChange={this.handleUnittestChange} required/>
                             </p>
                             <p className="create-task__form-item">
-                                <label className="create-task__input-label" htmlFor="methodsFile">Methods File*</label>
+                                <label className="create-task__input-label" htmlFor="methodsFile">Methoden Datei*</label>
                                 <input className="create-task__input" id="methodsFile" type="file" onChange={this.handleMethodsChange} required/>
                             </p>
                             <p className="create-task__form-item">
-                                <label className="create-task__input-label" htmlFor="code">Code File</label>
+                                <label className="create-task__input-label" htmlFor="code">Code Skelett Datei</label>
                                 <input className="create-task__input" id="code" type="file" onChange={this.handleCodeChange} />
                             </p>
                             <p className="create-task__form-item">
-                                *required fields
+                                *diese Felder sind erforderlich für eine komplette Aufgabe
                             </p>
-                            <button className="btn btn-submit" type="submit">Upload</button>
+                            {this.state.title && this.state.textFile && this.state.unittestFile && this.state.methodsFile ? (
+                                <button className="btn btn-success" type="submit">Aufgabe hochladen</button>
+                            ):(
+                                <button className="btn btn-secondary btn-disabled" type="submit" disabled>Aufgabe hochladen</button>
+                            )}
                         </form>
                     </div>
                 </div>

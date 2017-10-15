@@ -12,7 +12,13 @@
 }
 
 .tasks-view__link-wrapper {
-    width: 25%;
+    width: 10%;
     display: flex;
     justify-content: center;
+}
+
+.tasks-view__description-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

@@ -12,10 +12,13 @@ export default class LecturerView extends Component {
             <div className="lecturer-view">
                 <div className="container">
                     <div className="lecturer-view__wrapper white-box">
-                        <h4>Welcome to lecturers view</h4>
+                        <h4>Willkommen im Dozentenbereich!</h4>
+                        <p className="lecturer-view__description">
+                            Hier kannst du eine neue Aufgabe erstellen:
+                        </p>
                         <Link to="/createATask">
                             <button className="btn btn-secondary">
-                                create a task
+                                Eine Aufgabe erstellen
                             </button>
                         </Link>
                     </div>
