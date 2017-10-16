@@ -1,9 +1,6 @@
 const feedback = require('express').Router();
 const db = require('../services/DatabaseService');
 
-//ToDo: Why??
-const logger = require('debug')('JSChallenge:feedback');
-
 feedback.route('/:solutionID')
     .get((req, res, next) => {
         db.feedback.getBySolutionId(req, res, next);

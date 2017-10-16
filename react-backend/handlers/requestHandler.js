@@ -1,11 +1,9 @@
 const requestHandler = require('express').Router();
-const users = require('../routes/users');
 const solutions = require('../routes/solutions');
 const assessor = require('../routes/assessor');
 const feedback = require('../routes/feedback');
 const tasks = require('../routes/tasks');
 
-requestHandler.use('/users', users);
 requestHandler.use('/solutions', solutions);
 requestHandler.use('/assessor', assessor);
 requestHandler.use('/feedback', feedback);
@@ -27,13 +25,11 @@ requestHandler.use(function (req, res, next) {
         delete res.locals.items;
     } else {
         res.set('Content-Type', 'application/json');
-        res.status(204).end(); // no content;
+        res.status(204).end();
     }
 });
 
-// ToDo: error handler
 requestHandler.use(function(err, req, res, next) {
-    // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     res.status(err.status || 500);

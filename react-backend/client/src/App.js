@@ -10,7 +10,6 @@ import TaskEdit from "./components/TaskEdit";
 import Header from "./components/Header";
 import Home from "./components/Home";
 
-//ToDo Home
 class App extends Component {
     render() {
         return (

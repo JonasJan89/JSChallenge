@@ -5,6 +5,12 @@ const studentsCodeHelper = require('../helper/studentsCodeHelper');
 
 let feedback = {};
 
+/**
+ * Hier ist der Ablauf der automatischen Überprüfung einer Lösung definiert.
+ * Nacheinander wird die Hilfmethode "checkForMethods" des studentsCodeHelper,
+ * der staticAssessor und der dynamicAssessor aufgerufen.
+ * Die jeweiligen Resultate werden an die Methode "feedback.saveOne" des DatabaseServices übergeben.
+ */
 const assessorHandler = (req, res, next, solution) => {
     feedback = {
         solutionID: solution._id,

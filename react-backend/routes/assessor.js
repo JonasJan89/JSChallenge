@@ -1,8 +1,6 @@
 const assessor = require('express').Router();
 const db = require('../services/DatabaseService');
-
 const assessorHandler = require('../assessors/assessorHandler');
-
 
 assessor.route('/:solutionID')
     .get(( req, res, next ) => {

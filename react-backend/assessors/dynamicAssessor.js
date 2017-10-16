@@ -2,6 +2,14 @@ const Mocha = require('mocha');
 const studentsCodeHelper = require('../helper/studentsCodeHelper');
 const unittestHelper = require('../helper/unittestHelper');
 
+/**
+ * Im dynamicAssessor wird die Lösung eines Studenten mit Unittests überprüft.
+ * Dazu wird eine Instanz von Mocha erzeugt und dieser ein Testfile übergeben,
+ * bevor der Test gestartet wird. Der Test erzeugt Events, welche mithilfe von Listener
+ * abgefangen werden. Die Resultate, die die Events liefern, werden in einem Array gespeichert,
+ * welches anschließend zurückgegeben wird.
+ */
+
 const dynamicAssessor = (solution, methods) => {
 
     studentsCodeHelper.prepareFile(solution.fileName, methods);

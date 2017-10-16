@@ -2,9 +2,6 @@ const solutions = require('express').Router();
 const db = require('../services/DatabaseService');
 const formidable = require('express-formidable');
 
-//ToDo: Why??
-const logger = require('debug')('JSChallenge:solutions');
-
 solutions.route('/')
     .get(( req, res, next ) => {
         db.solutions.getAll(req,res,next);
