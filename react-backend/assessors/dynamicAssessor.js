@@ -17,7 +17,6 @@ const dynamicAssessor = (solution, methods) => {
     let mocha = new Mocha();
     mocha.addFile(`./files/testfiles/test_${solution.taskID}.js`);
 
-    //ToDo muss gesetzt werden, damit nicht immer wieder neue Listener erschaffen werden.
     process.setMaxListeners(3);
 
     let p = new Promise(resolve => {
@@ -43,13 +42,10 @@ const dynamicAssessor = (solution, methods) => {
 
     return p.then(testResult => {
 
-        /*ToDo definitiv ein Problem, welches in der Arbeit beschrieben werden könnte.
-            muss sein, weil sonst die Tests nicht doppelt durchlaufen
-         */
-
         Object.keys(require.cache).forEach( file => {
             delete require.cache[ file ];
         });
+
         studentsCodeHelper.deleteFile(solution.fileName);
         unittestHelper.deleteFile(solution.taskID);
         return testResult;
